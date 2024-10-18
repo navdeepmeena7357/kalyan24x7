@@ -140,6 +140,8 @@ const BankDetailsPage = () => {
       //     phonePeNumber: '',
       //     gpayNumber: '',
       //   });
+
+      console.log(JSON.stringify(paymentApps));
       console.log(JSON.stringify(paymentApps));
     } catch (error) {
       toast.error('Failed to save bank details. Please try again.');
