@@ -44,13 +44,13 @@ const FundsPage = () => {
           title="Add Fund History"
           marqueeText="Add money to your wallet"
           Icon={MdHistoryToggleOff}
-          onClick={() => alert('Add Fund')}
+          onClick={() => handleNavigation('add_fund_history')}
         />
         <InfoCard
           title="Withdraw Fund History"
           marqueeText="Add money to your wallet"
           Icon={RiHistoryFill}
-          onClick={() => alert('Add Fund')}
+          onClick={() => handleNavigation('withdraw_fund_history')}
         />
       </div>
     </>

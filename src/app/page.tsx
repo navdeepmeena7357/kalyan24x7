@@ -158,7 +158,7 @@ const GameList = () => {
 const Home: React.FC = () => {
   const { refreshBalance } = useWallet();
   useEffect(() => {
-    refreshBalance(); // Refresh balance when the page is focused
+    refreshBalance();
   });
   return (
     <Suspense>
