@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Select from 'react-select';
 import TitleBar from '@/components/TitleBar';
 import { MarketData } from '@/app/page';
@@ -83,7 +83,7 @@ const BidsPage = () => {
   const [bids, setBids] = useState<BidsData[]>([]);
   const [visible, setVisible] = useState<boolean>(false);
 
-  const handleSearchBids = async () => {
+  const handleSearchBids = useCallback(async () => {
     setIsLoading(true);
     try {
       const requestBody: any = { user_id: 153 };
@@ -105,7 +105,7 @@ const BidsPage = () => {
       const result: BidResponse = await response.json();
       if (result.status === 1) {
         setBids(result.bidss);
-        setVisible(result.bidss.length == 0);
+        setVisible(result.bidss.length === 0);
       } else {
         console.error('Error fetching bids');
         setVisible(true);
@@ -116,7 +116,10 @@ const BidsPage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [marketId, bidType, session, date]);
+  useEffect(() => {
+    handleSearchBids();
+  }, [handleSearchBids]);
 
   useEffect(() => {
     const fetchMarketData = async () => {

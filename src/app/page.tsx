@@ -71,7 +71,9 @@ const Navbar = () => {
         </div>
       </div>
       <div className="text-black mt-1">
-        <Marquee text={appData.contactDetails?.banner_message.toString()} />
+        <Marquee
+          text={appData.contactDetails?.banner_message.toString() ?? ' '}
+        />
         <WalletOptions />
         <ContactOptions />
       </div>

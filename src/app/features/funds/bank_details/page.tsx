@@ -202,7 +202,7 @@ const BankDetailsPage = () => {
           name="paytmNumber"
           icon={<SiPaytm />}
           placeholder="Paytm Number"
-          value={paymentApps.paytmNumber}
+          value={paymentApps.paytmNumber ?? ''}
           onChange={handlePaymentInputChange}
         />
 
@@ -210,7 +210,7 @@ const BankDetailsPage = () => {
           name="phonePeNumber"
           icon={<SiPhonepe />}
           placeholder="PhonePe Number"
-          value={paymentApps.phonePeNumber}
+          value={paymentApps.phonePeNumber ?? ''}
           onChange={handlePaymentInputChange}
         />
 
@@ -218,7 +218,7 @@ const BankDetailsPage = () => {
           name="gpayNumber"
           icon={<SiGooglepay />}
           placeholder="GPay Number"
-          value={paymentApps.gpayNumber}
+          value={paymentApps.gpayNumber ?? ''}
           onChange={handlePaymentInputChange}
         />
 

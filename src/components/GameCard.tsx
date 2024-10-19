@@ -73,7 +73,7 @@ const GameCard: React.FC<MarketProps> = ({ market }) => {
         className="bg-white shadow-md shadow-gray-500 rounded-md flex p-3 m-1 justify-between"
         onClick={
           (isMarketOpen && isMarketClose) || isMarketClose
-            ? () => handleMarketClick(market)
+            ? () => handleMarketClick()
             : () => showMarketClosed()
         }
       >

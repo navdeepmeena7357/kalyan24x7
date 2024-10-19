@@ -156,10 +156,10 @@ export const postBids = async (bids: Bid[]): Promise<PostBidsResponse> => {
 interface GameRates {
   id: number;
   market_name: string;
-  market_rate: number;
+  market_rate: string;
 }
 
-export const getGameRates = async (): Promise<GameRates> => {
+export const getGameRates = async (): Promise<GameRates[]> => {
   try {
     const response = await fetch(`${BASE_URL}/game_rates`, {
       method: 'GET',
@@ -172,7 +172,7 @@ export const getGameRates = async (): Promise<GameRates> => {
       throw new Error('Network response was not ok');
     }
 
-    const data: GameRates = await response.json();
+    const data: GameRates[] = await response.json();
     return data;
   } catch (error) {
     console.error('error:', (error as Error).message);

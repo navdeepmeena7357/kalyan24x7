@@ -13,7 +13,7 @@ export default function AuthLayout({
   return (
     <section>
       <div>
-        <TitleBar title={name} />
+        <TitleBar title={name ?? ''} />
       </div>
       {children}
     </section>

@@ -8,17 +8,17 @@ import { showErrorToast } from '@/utils/toast';
 interface GameRates {
   id: number;
   market_name: string;
-  market_rate: number;
+  market_rate: string;
 }
 const GameRate = () => {
-  const [gameRates, setGameRates] = useState<GameRates[]>([]);
+  const [gameRates, setGameRates] = useState<GameRates[]>();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchGameRates = async () => {
       try {
         setIsLoading(true);
-        const rates = await getGameRates();
+        const rates: GameRates[] = await getGameRates();
         const updatedRates = rates.map((rate) => {
           if (rate.market_name === 'Single') {
             return { ...rate, market_rate: '9.5' };
@@ -57,7 +57,7 @@ const GameRate = () => {
             >
               {rate.market_name}
               <div>
-                ₹10 - ₹{(rate.market_rate * 10).toLocaleString('en-IN')}
+                ₹10 - ₹{(Number(rate.market_rate) * 10).toLocaleString('en-IN')}
               </div>
             </li>
           ))}
