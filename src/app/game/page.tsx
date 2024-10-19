@@ -2,7 +2,7 @@
 
 import { NextPage } from 'next';
 import Image from 'next/image';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 
 const GamePage: NextPage = () => {
@@ -302,4 +302,12 @@ const GamePage: NextPage = () => {
   );
 };
 
-export default GamePage;
+const Page = () => {
+  return (
+    <Suspense>
+      <GamePage />
+    </Suspense>
+  );
+};
+
+export default Page;

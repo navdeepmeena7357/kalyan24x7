@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { getMarketInfo, Market } from '@/app/services/api';
 import { MdDelete } from 'react-icons/md';
@@ -251,4 +251,12 @@ const HalfSangamA = () => {
   );
 };
 
-export default HalfSangamA;
+const Page = () => {
+  return (
+    <Suspense>
+      <HalfSangamA />
+    </Suspense>
+  );
+};
+
+export default Page;

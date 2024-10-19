@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { getMarketInfo, Market } from '@/app/services/api';
 import DropdownSelect from '@/components/SessionDropdown';
@@ -15,6 +15,7 @@ import { FaArrowUpLong } from 'react-icons/fa6';
 
 const JodiPage = () => {
   const searchParams = useSearchParams();
+
   const user = useUser();
 
   const { balance, refreshBalance } = useWallet();
@@ -161,125 +162,135 @@ const JodiPage = () => {
   };
 
   return (
-    <div className="mt-12 p-4">
-      <Toaster position="bottom-center" reverseOrder={false} />
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="mt-12 p-4">
+        <Toaster position="bottom-center" reverseOrder={false} />
 
-      {market && (
-        <>
-          <div className="flex justify-between items-center">
-            <h1>Select Session</h1>
-            <DropdownSelect
-              options={options}
-              defaultOption={session}
-              onChange={handleSelectChange}
-            />
-          </div>
-
-          <div className="flex justify-between items-center mt-2">
-            <h1>Enter Jodi Digit</h1>
-
-            <div className="justify-between relative flex flex-col items-center p-1">
-              <input
-                type="number"
-                maxLength={2}
-                value={digit}
-                onChange={handleChange}
-                placeholder="Jodi"
-                className="rounded-lg p-2 shadow-lg focus:ring-transparent focus:outline-none text-center max-w-[150px]"
-              />
-              {showSuggestions && (
-                <ul className="absolute w-full bg-white border rounded-md shadow-lg mt-10 max-h-40 overflow-y-auto">
-                  {filteredSuggestions.map((suggestion) => (
-                    <li
-                      key={suggestion}
-                      onClick={() => handleSuggestionSelect(suggestion)}
-                      className="cursor-pointer p-2  hover:bg-gray-200"
-                    >
-                      {suggestion}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-
-          <div className="flex justify-between items-center mt-2">
-            <h1>Enter Points</h1>
-            <div className="justify-between flex items-center p-1">
-              <input
-                type="number"
-                placeholder="Amount"
-                value={amount}
-                maxLength={4}
-                onChange={(e) => setAmount(e.target.value)}
-                onKeyDown={(e) => {
-                  if (['e', '.', '-', '+'].includes(e.key)) {
-                    e.preventDefault();
-                  }
-                }}
-                className="rounded-md p-2 max-w-[150px] shadow-lg text-center border-none focus:ring-transparent focus:outline-none"
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-end items-center pt-4 text-end">
-            <button
-              onClick={handleAddBid}
-              className="bg-orange-500 min-w-[154px] p-2 text-sm text-white rounded flex items-center justify-center gap-2"
-            >
-              <FaPlus />
-              Add Bid
-            </button>
-          </div>
-
-          <div className="shadow-md rounded-md mt-2 overflow-y-auto mb-14">
-            <table className="min-w-full bg-orange-500  table-auto text-center">
-              <thead>
-                <tr className="border-b text-white text-sm">
-                  <th className="p-2 font-normal">Jodi</th>
-                  <th className="p-2 font-normal">Point</th>
-                  <th className="p-2 font-normal">Session</th>
-                  <th className="p-2 font-normal">Action</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white">
-                {bids.map((bid, index) => (
-                  <tr key={index} className="text-sm">
-                    <td className="p-2 text-black">{bid.bet_digit}</td>
-                    <td className="p-2">{bid.bet_amount}</td>
-                    <td className="p-2 uppercase">JODI</td>
-                    <td className="p-2">
-                      <button
-                        onClick={() => handleDeleteBid(index)}
-                        className="text-red-500"
-                      >
-                        <MdDelete className="h-5 w-5" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="fixed bottom-0 left-0 right-0 border-t bg-white shadow-md p-2 pl-4 pr-4">
+        {market && (
+          <>
             <div className="flex justify-between items-center">
-              <div className="p-1 items-center text-sm space-y-1">
-                <p>Total Bids: {totalCount}</p>
-                <p>Total Amount: {totalAmount}</p>
+              <h1>Select Session</h1>
+              <DropdownSelect
+                options={options}
+                defaultOption={session}
+                onChange={handleSelectChange}
+              />
+            </div>
+
+            <div className="flex justify-between items-center mt-2">
+              <h1>Enter Jodi Digit</h1>
+
+              <div className="justify-between relative flex flex-col items-center p-1">
+                <input
+                  type="number"
+                  maxLength={2}
+                  value={digit}
+                  onChange={handleChange}
+                  placeholder="Jodi"
+                  className="rounded-lg p-2 shadow-lg focus:ring-transparent focus:outline-none text-center max-w-[150px]"
+                />
+                {showSuggestions && (
+                  <ul className="absolute w-full bg-white border rounded-md shadow-lg mt-10 max-h-40 overflow-y-auto">
+                    {filteredSuggestions.map((suggestion) => (
+                      <li
+                        key={suggestion}
+                        onClick={() => handleSuggestionSelect(suggestion)}
+                        className="cursor-pointer p-2  hover:bg-gray-200"
+                      >
+                        {suggestion}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
+            </div>
+
+            <div className="flex justify-between items-center mt-2">
+              <h1>Enter Points</h1>
+              <div className="justify-between flex items-center p-1">
+                <input
+                  type="number"
+                  placeholder="Amount"
+                  value={amount}
+                  maxLength={4}
+                  onChange={(e) => setAmount(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (['e', '.', '-', '+'].includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
+                  className="rounded-md p-2 max-w-[150px] shadow-lg text-center border-none focus:ring-transparent focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end items-center pt-4 text-end">
               <button
-                onClick={handleSubmitBids}
-                className="p-3 font-medium bg-orange-500 text-white flex items-center gap-2 text-[14px] rounded"
+                onClick={handleAddBid}
+                className="bg-orange-500 min-w-[154px] p-2 text-sm text-white rounded flex items-center justify-center gap-2"
               >
-                <FaArrowUpLong />
-                Submit Bids
+                <FaPlus />
+                Add Bid
               </button>
             </div>
-          </div>
-        </>
-      )}
-    </div>
+
+            <div className="shadow-md rounded-md mt-2 overflow-y-auto mb-14">
+              <table className="min-w-full bg-orange-500  table-auto text-center">
+                <thead>
+                  <tr className="border-b text-white text-sm">
+                    <th className="p-2 font-normal">Jodi</th>
+                    <th className="p-2 font-normal">Point</th>
+                    <th className="p-2 font-normal">Session</th>
+                    <th className="p-2 font-normal">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white">
+                  {bids.map((bid, index) => (
+                    <tr key={index} className="text-sm">
+                      <td className="p-2 text-black">{bid.bet_digit}</td>
+                      <td className="p-2">{bid.bet_amount}</td>
+                      <td className="p-2 uppercase">JODI</td>
+                      <td className="p-2">
+                        <button
+                          onClick={() => handleDeleteBid(index)}
+                          className="text-red-500"
+                        >
+                          <MdDelete className="h-5 w-5" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="fixed bottom-0 left-0 right-0 border-t bg-white shadow-md p-2 pl-4 pr-4">
+              <div className="flex justify-between items-center">
+                <div className="p-1 items-center text-sm space-y-1">
+                  <p>Total Bids: {totalCount}</p>
+                  <p>Total Amount: {totalAmount}</p>
+                </div>
+                <button
+                  onClick={handleSubmitBids}
+                  className="p-3 font-medium bg-orange-500 text-white flex items-center gap-2 text-[14px] rounded"
+                >
+                  <FaArrowUpLong />
+                  Submit Bids
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </Suspense>
   );
 };
 
-export default JodiPage;
+const Page = () => {
+  return (
+    <Suspense>
+      <JodiPage />
+    </Suspense>
+  );
+};
+
+export default Page;

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useUser } from '@/context/UserContext';
 import { useWallet } from '@/context/WalletContext';
@@ -204,4 +204,12 @@ const JodiBulkPage = () => {
   );
 };
 
-export default JodiBulkPage;
+const Page = () => {
+  return (
+    <Suspense>
+      <JodiBulkPage />
+    </Suspense>
+  );
+};
+
+export default Page;

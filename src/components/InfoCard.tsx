@@ -5,7 +5,7 @@ import MarqueeTwo from './MarqueeTwo';
 interface InfoCardProps {
   title: string;
   marqueeText: string;
-  Icon: React.ComponentType;
+  Icon: React.ComponentType<{ className?: string }>; // Update Icon to accept className
   onClick: () => void;
 }
 

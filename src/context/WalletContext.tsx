@@ -1,4 +1,3 @@
-// WalletContext.tsx
 'use client';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { BASE_URL } from '@/app/services/api';
@@ -14,7 +13,7 @@ const WalletContext = createContext<WalletData | undefined>(undefined);
 export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [balance, setBalance] = useState<number>();
+  const [balance, setBalance] = useState<number>(0);
 
   const fetchBalance = async () => {
     try {

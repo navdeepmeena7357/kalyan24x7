@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { getMarketInfo, Market } from '@/app/services/api';
 import DropdownSelect from '@/components/SessionDropdown';
@@ -12,22 +12,20 @@ import { showErrorToast, showSuccessToast } from '@/utils/toast';
 import { Toaster } from 'react-hot-toast';
 import { FaArrowUpLong } from 'react-icons/fa6';
 
+interface Bid {
+  market_session: string;
+  bet_digit: string;
+  bet_amount: number;
+  bet_type: string;
+  user_id: number;
+  market_id: number;
+}
+
 const DPMotor = () => {
-  const searchParams = useSearchParams();
   const user = useUser();
-
   const { balance, refreshBalance } = useWallet();
-
+  const searchParams = useSearchParams();
   const id = searchParams.get('id');
-
-  interface Bid {
-    market_session: string;
-    bet_digit: string;
-    bet_amount: number;
-    bet_type: string;
-    user_id: number;
-    market_id: number;
-  }
 
   const [market, setMarket] = useState<Market | null>(null);
   const [bids, setBids] = useState<Bid[]>([]);
@@ -141,16 +139,18 @@ const DPMotor = () => {
 
   useEffect(() => {
     const fetchMarketData = async () => {
-      try {
-        const data = await getMarketInfo(Number(id));
-        setMarket(data);
-        if (data.open_market_status === 1) {
-          setSession('open');
-        } else {
-          setSession('close');
+      if (id) {
+        try {
+          const data = await getMarketInfo(Number(id));
+          setMarket(data);
+          if (data.open_market_status === 1) {
+            setSession('open');
+          } else {
+            setSession('close');
+          }
+        } catch (err) {
+          console.log(err);
         }
-      } catch (err) {
-        console.log(err);
       }
     };
     fetchMarketData();
@@ -300,4 +300,12 @@ const DPMotor = () => {
   );
 };
 
-export default DPMotor;
+const Page = () => {
+  return (
+    <Suspense>
+      <DPMotor />
+    </Suspense>
+  );
+};
+
+export default Page;

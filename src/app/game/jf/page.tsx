@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { getMarketInfo, Market } from '@/app/services/api';
 import DropdownSelect from '@/components/SessionDropdown';
@@ -302,5 +302,12 @@ const JodiFamily = () => {
     </div>
   );
 };
+const Page = () => {
+  return (
+    <Suspense>
+      <JodiFamily />
+    </Suspense>
+  );
+};
 
-export default JodiFamily;
+export default Page;

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { getMarketInfo, Market } from '@/app/services/api';
 import DropdownSelect from '@/components/SessionDropdown';
@@ -303,4 +303,12 @@ const SinglePanel = () => {
   );
 };
 
-export default SinglePanel;
+const Page = () => {
+  return (
+    <Suspense>
+      <SinglePanel />
+    </Suspense>
+  );
+};
+
+export default Page;

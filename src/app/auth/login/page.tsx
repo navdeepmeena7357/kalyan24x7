@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ContactOptions from '@/components/ContactOptions';
 import { useRouter } from 'next/navigation';
 import { login } from '@/app/services/auth';
@@ -12,10 +12,13 @@ import { useUser } from '@/context/UserContext';
 function LoginPage() {
   const { setUser } = useUser();
   const router = useRouter();
-  const token = localStorage.getItem('token');
-  if (token) {
-    router.push('/');
-  }
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      router.push('/');
+    }
+  });
 
   const handleNavigate = () => {
     router.push('/auth/register');
