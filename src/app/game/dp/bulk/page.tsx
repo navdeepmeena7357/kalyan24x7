@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { useUser } from '@/context/UserContext';
 import { useWallet } from '@/context/WalletContext';
 import { getMarketInfo, Market, postBids } from '@/app/services/api';
@@ -21,17 +20,14 @@ interface Bid {
 }
 
 const SinglePanelBulkPage = () => {
-  const searchParams = useSearchParams();
   const user = useUser();
   const { balance, refreshBalance } = useWallet();
-  const id = searchParams.get('id');
 
   const [market, setMarket] = useState<Market | null>(null);
   const [bids, setBids] = useState<Bid[]>([]);
   const [amount, setAmount] = useState('');
   const [session, setSession] = useState<string>('');
 
-  //Session Options for Dropdown
   const openOptions = [
     {
       value: 'open',
@@ -90,7 +86,7 @@ const SinglePanelBulkPage = () => {
   useEffect(() => {
     const fetchMarketData = async () => {
       try {
-        const data = await getMarketInfo(Number(id));
+        const data = await getMarketInfo(Number('113'));
         setMarket(data);
         if (data.open_market_status == 1) {
           setSession('open');
@@ -102,7 +98,7 @@ const SinglePanelBulkPage = () => {
       }
     };
     fetchMarketData();
-  }, [id]);
+  }, []);
 
   const handleSubmitBids = async () => {
     if (bids.length === 0) {

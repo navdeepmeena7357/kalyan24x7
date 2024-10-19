@@ -25,11 +25,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const saveUserData = (data: UserData) => {
     setUser(data);
-    localStorage.setItem('user', JSON.stringify(data)); // Optionally store in localStorage
+    localStorage.setItem('user', JSON.stringify(data));
   };
 
   useEffect(() => {
-    // Load user data from localStorage if it exists
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
       setUser(JSON.parse(savedUser));

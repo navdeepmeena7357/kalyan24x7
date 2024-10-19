@@ -2,7 +2,7 @@
 
 import { NextPage } from 'next';
 import Image from 'next/image';
-import React, { Suspense } from 'react';
+import React from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 
 const GamePage: NextPage = () => {
@@ -12,6 +12,8 @@ const GamePage: NextPage = () => {
   const id = searchParams.get('id');
   const name = searchParams.get('name');
   const openStatus = searchParams.get('open_status');
+
+  console.log(`ID : ${id}, Name :  ${name} , Open Status : ${openStatus}`);
 
   const handleNavigation = (key: string) => {
     router.push(`/game/${key}?id=${id}&name=${name}`);
@@ -302,12 +304,4 @@ const GamePage: NextPage = () => {
   );
 };
 
-const Page = () => {
-  return (
-    <Suspense>
-      <GamePage />
-    </Suspense>
-  );
-};
-
-export default Page;
+export default GamePage;

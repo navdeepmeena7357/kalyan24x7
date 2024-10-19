@@ -1,7 +1,7 @@
 'use client';
 import ProtectedRoute from '@/components/ProctectedRoute';
 import LoadingModal from '@/components/LoadingModal';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { BASE_URL } from './services/api';
 import { Toaster } from 'react-hot-toast';
 import GameCard from '@/components/GameCard';
@@ -161,12 +161,14 @@ const Home: React.FC = () => {
     refreshBalance(); // Refresh balance when the page is focused
   });
   return (
-    <ProtectedRoute>
-      <Toaster position="bottom-center" reverseOrder={false} />
-      <Navbar />
-      <GameList />
-      <BottomNavBar />
-    </ProtectedRoute>
+    <Suspense>
+      <ProtectedRoute>
+        <Toaster position="bottom-center" reverseOrder={false} />
+        <Navbar />
+        <GameList />
+        <BottomNavBar />
+      </ProtectedRoute>
+    </Suspense>
   );
 };
 
