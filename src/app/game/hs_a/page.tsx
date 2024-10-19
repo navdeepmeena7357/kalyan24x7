@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { getMarketInfo, Market } from '@/app/services/api';
-import DropdownSelect from '@/components/SessionDropdown';
 import { MdDelete } from 'react-icons/md';
 import { FaPlus } from 'react-icons/fa';
 import { useUser } from '@/context/UserContext';
@@ -18,7 +17,7 @@ const HalfSangamA = () => {
 
   const { balance, refreshBalance } = useWallet();
 
-  let id = searchParams.get('id');
+  const id = searchParams.get('id');
 
   interface Bid {
     market_session: string;
@@ -60,17 +59,6 @@ const HalfSangamA = () => {
     setBids(updatedBids);
   };
 
-  const handleSelectChange = (value: string) => {
-    setSession(value);
-
-    const updatedBids = bids.map((bid) => ({
-      ...bid,
-      market_session: value,
-    }));
-
-    setBids(updatedBids);
-  };
-
   const totalAmount = bids.reduce((acc, bid) => acc + bid.bet_amount, 0);
   const totalCount = bids.length;
 
@@ -84,10 +72,12 @@ const HalfSangamA = () => {
         } else {
           setSession('close');
         }
-      } catch (err) {}
+      } catch (err) {
+        showErrorToast(`Error ${err}`);
+      }
     };
     fetchMarketData();
-  }, [Number(id)]);
+  }, [id]);
 
   const handleSubmitBids = async () => {
     if (bids.length === 0) {

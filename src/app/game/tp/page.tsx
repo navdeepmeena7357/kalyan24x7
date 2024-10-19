@@ -23,7 +23,7 @@ const TriplePanaPage = () => {
   const searchParams = useSearchParams();
   const user = useUser();
   const { balance, refreshBalance } = useWallet();
-  let id = searchParams.get('id');
+  const id = searchParams.get('id');
 
   const [market, setMarket] = useState<Market | null>(null);
   const [bids, setBids] = useState<Bid[]>([]);
@@ -100,10 +100,12 @@ const TriplePanaPage = () => {
         } else {
           setSession('close');
         }
-      } catch (err) {}
+      } catch (err) {
+        throw err;
+      }
     };
     fetchMarketData();
-  }, [Number(id)]);
+  }, [id]);
 
   const handleSubmitBids = async () => {
     if (bids.length === 0) {
@@ -138,6 +140,7 @@ const TriplePanaPage = () => {
       }
     } catch (error) {
       showSuccessToast('Something went wrong !');
+      throw error;
     }
   };
 

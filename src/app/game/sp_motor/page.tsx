@@ -18,7 +18,7 @@ const SPMotor = () => {
 
   const { balance, refreshBalance } = useWallet();
 
-  let id = searchParams.get('id');
+  const id = searchParams.get('id');
 
   interface Bid {
     market_session: string;
@@ -135,10 +135,6 @@ const SPMotor = () => {
     }
   };
 
-  const handleSuggestionSelect = (value: string) => {
-    setDigit(value);
-  };
-
   const totalAmount = bids.reduce((acc, bid) => acc + bid.bet_amount, 0);
   const totalCount = bids.length;
 
@@ -152,10 +148,12 @@ const SPMotor = () => {
         } else {
           setSession('close');
         }
-      } catch (err) {}
+      } catch (err) {
+        throw err;
+      }
     };
     fetchMarketData();
-  }, [Number(id)]);
+  }, [id]);
 
   const handleSubmitBids = async () => {
     if (bids.length === 0) {

@@ -19,7 +19,7 @@ const JodiFamily = () => {
 
   const { balance, refreshBalance } = useWallet();
 
-  let id = searchParams.get('id');
+  const id = searchParams.get('id');
 
   interface Bid {
     market_session: string;
@@ -137,10 +137,13 @@ const JodiFamily = () => {
         } else {
           setSession('close');
         }
-      } catch (err) {}
+      } catch (err) {
+        showErrorToast(`Error : ${err}`);
+        throw err;
+      }
     };
     fetchMarketData();
-  }, [Number(id)]);
+  }, [id]);
 
   const handleSubmitBids = async () => {
     if (bids.length === 0) {

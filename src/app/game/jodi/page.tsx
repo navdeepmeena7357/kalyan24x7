@@ -19,7 +19,7 @@ const JodiPage = () => {
 
   const { balance, refreshBalance } = useWallet();
 
-  let id = searchParams.get('id');
+  const id = searchParams.get('id');
 
   interface Bid {
     market_session: string;
@@ -117,10 +117,12 @@ const JodiPage = () => {
         } else {
           setSession('close');
         }
-      } catch (err) {}
+      } catch (err) {
+        throw err;
+      }
     };
     fetchMarketData();
-  }, [Number(id)]);
+  }, [id]);
 
   const handleSubmitBids = async () => {
     if (bids.length === 0) {

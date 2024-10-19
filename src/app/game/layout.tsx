@@ -1,8 +1,7 @@
 'use client';
 import TitleBar from '@/components/TitleBar';
-import Image from 'next/image';
-import { useSearchParams, useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import React from 'react';
 export default function AuthLayout({
   children,
 }: {

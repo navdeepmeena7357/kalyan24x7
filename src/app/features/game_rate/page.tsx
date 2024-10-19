@@ -3,7 +3,7 @@ import TitleBar from '@/components/TitleBar';
 import React, { useEffect, useState } from 'react';
 import { getGameRates } from '@/app/services/api';
 import LoadingModal from '@/components/LoadingModal';
-import { showErrorToast, showSuccessToast } from '@/utils/toast';
+import { showErrorToast } from '@/utils/toast';
 
 interface GameRates {
   id: number;

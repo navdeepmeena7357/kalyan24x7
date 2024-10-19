@@ -1,8 +1,7 @@
 // components/Drawer.tsx
-import React, { useState } from 'react';
-import { logout } from '@/app/services/auth';
-import { showErrorToast, showSuccessToast } from '@/utils/toast';
-import { useRouter } from 'next/navigation';
+import React from 'react';
+import { showErrorToast } from '@/utils/toast';
+// import { useRouter } from 'next/navigation';
 import { useUser } from '@/context/UserContext';
 import { FaUserCircle } from 'react-icons/fa';
 
@@ -12,12 +11,12 @@ interface DrawerProps {
 }
 
 const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const user = useUser();
-  const router = useRouter();
+  // const router = useRouter();
 
   const handleLogout = async () => {
-    setIsLoading(true); // Show loading indicator
+    //  setIsLoading(true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
@@ -25,14 +24,13 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
 
       if (authToken !== null) {
         localStorage.removeItem('token');
-        router;
       }
 
       showErrorToast('Token is missing');
     } catch (err) {
       showErrorToast((err as Error).message);
     } finally {
-      setIsLoading(false); // Hide loading indicator
+      // setIsLoading(false);
     }
   };
 

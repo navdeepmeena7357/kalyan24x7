@@ -7,7 +7,6 @@ import { getMarketInfo, Market, postBids } from '@/app/services/api';
 import { Toaster } from 'react-hot-toast';
 import DropdownSelect from '@/components/SessionDropdown';
 import { showSuccessToast, showErrorToast } from '@/utils/toast';
-import { FaUpload } from 'react-icons/fa';
 import { FaArrowUpLong } from 'react-icons/fa6';
 
 interface Bid {
@@ -23,7 +22,7 @@ const SingleBulkPage = () => {
   const searchParams = useSearchParams();
   const user = useUser();
   const { balance, refreshBalance } = useWallet();
-  let id = searchParams.get('id');
+  const id = searchParams.get('id');
 
   const [market, setMarket] = useState<Market | null>(null);
   const [bids, setBids] = useState<Bid[]>([]);
@@ -101,10 +100,12 @@ const SingleBulkPage = () => {
         } else {
           setSession('close');
         }
-      } catch (err) {}
+      } catch (err) {
+        throw err;
+      }
     };
     fetchMarketData();
-  }, [Number(id)]);
+  }, [id]);
 
   const handleSubmitBids = async () => {
     if (bids.length === 0) {
@@ -139,6 +140,7 @@ const SingleBulkPage = () => {
       refreshBalance();
     } catch (error) {
       showSuccessToast('Something went wrong !');
+      throw error;
     }
   };
 

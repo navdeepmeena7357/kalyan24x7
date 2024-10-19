@@ -27,9 +27,9 @@ function LoginPage() {
 
   const [mobileNumber, setMobileNumber] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // State for loading
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { authenticate } = useAuth(); // Get authenticate function from context
+  const { authenticate } = useAuth();
 
   const validateInputs = (): boolean => {
     if (!mobileNumber) {
@@ -60,7 +60,7 @@ function LoginPage() {
     setIsLoading(true); // Show loading indicator
 
     try {
-      const { token, message, user } = await login(mobileNumber, password);
+      const { token, user } = await login(mobileNumber, password);
 
       const userData = {
         id: user.id,
@@ -80,7 +80,7 @@ function LoginPage() {
     } catch (err) {
       showErrorToast((err as Error).message);
     } finally {
-      setIsLoading(false); // Hide loading indicator
+      setIsLoading(false);
     }
   };
 

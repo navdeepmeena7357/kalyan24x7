@@ -139,7 +139,7 @@ const BidsPage = () => {
     };
 
     fetchMarketData();
-  }, []);
+  }, [handleSearchBids]);
 
   const handleMarketIdChange = (selectedOption: any) => {
     setMarketId(selectedOption?.value || null);

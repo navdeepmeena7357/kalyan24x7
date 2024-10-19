@@ -23,7 +23,7 @@ const JodiBulkPage = () => {
   const searchParams = useSearchParams();
   const user = useUser();
   const { balance, refreshBalance } = useWallet();
-  let id = searchParams.get('id');
+  const id = searchParams.get('id');
 
   const [market, setMarket] = useState<Market | null>(null);
   const [bids, setBids] = useState<Bid[]>([]);
@@ -82,10 +82,12 @@ const JodiBulkPage = () => {
         const data = await getMarketInfo(Number(id));
         setMarket(data);
         setSession('null');
-      } catch (err) {}
+      } catch (err) {
+        throw err;
+      }
     };
     fetchMarketData();
-  }, [Number(id)]);
+  }, [id]);
 
   const handleSubmitBids = async () => {
     if (bids.length === 0) {
@@ -120,6 +122,7 @@ const JodiBulkPage = () => {
       }
     } catch (error) {
       showSuccessToast('Something went wrong !');
+      throw error;
     }
   };
 

@@ -4,7 +4,6 @@ import { useSearchParams } from 'next/navigation';
 import { getMarketInfo, Market } from '@/app/services/api';
 import DropdownSelect from '@/components/SessionDropdown';
 import { MdDelete } from 'react-icons/md';
-import { FaPlus } from 'react-icons/fa';
 import { useUser } from '@/context/UserContext';
 import { postBids } from '@/app/services/api';
 import { useWallet } from '@/context/WalletContext';
@@ -19,7 +18,7 @@ const DoublePanel = () => {
 
   const { balance, refreshBalance } = useWallet();
 
-  let id = searchParams.get('id');
+  const id = searchParams.get('id');
 
   interface Bid {
     market_session: string;
@@ -138,10 +137,13 @@ const DoublePanel = () => {
         } else {
           setSession('close');
         }
-      } catch (err) {}
+      } catch (err) {
+        showErrorToast('Error : ' + err);
+        throw err;
+      }
     };
     fetchMarketData();
-  }, [Number(id)]);
+  }, [id]);
 
   const handleSubmitBids = async () => {
     if (bids.length === 0) {

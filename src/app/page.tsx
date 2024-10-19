@@ -71,7 +71,7 @@ const Navbar = () => {
         </div>
       </div>
       <div className="text-black mt-1">
-        <Marquee text={appData.contactDetails?.banner_message} />
+        <Marquee text={appData.contactDetails?.banner_message.toString()} />
         <WalletOptions />
         <ContactOptions />
       </div>
@@ -154,10 +154,10 @@ const GameList = () => {
 };
 
 const Home: React.FC = () => {
-  const { balance, refreshBalance } = useWallet();
+  const { refreshBalance } = useWallet();
   useEffect(() => {
     refreshBalance(); // Refresh balance when the page is focused
-  }, []);
+  });
   return (
     <ProtectedRoute>
       <Toaster position="bottom-center" reverseOrder={false} />

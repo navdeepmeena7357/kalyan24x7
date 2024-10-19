@@ -20,10 +20,8 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('Token not found');
-      const decodedToken: any = jwt.decode(token);
+      const decodedToken = jwt.decode(token) ?? 'null';
       const userId = decodedToken.sub;
-
-      console.log(userId);
 
       const response = await fetch(`${BASE_URL}/user_points`, {
         method: 'POST',

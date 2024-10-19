@@ -20,7 +20,7 @@ interface LoginResponse {
 }
 
 interface LogoutResponse {
-  message: String;
+  message: string;
 }
 
 // API URL (make sure to configure your .env for this)

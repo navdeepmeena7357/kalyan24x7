@@ -24,7 +24,7 @@ const SinglePanelBulkPage = () => {
   const searchParams = useSearchParams();
   const user = useUser();
   const { balance, refreshBalance } = useWallet();
-  let id = searchParams.get('id');
+  const id = searchParams.get('id');
 
   const [market, setMarket] = useState<Market | null>(null);
   const [bids, setBids] = useState<Bid[]>([]);
@@ -96,10 +96,12 @@ const SinglePanelBulkPage = () => {
         } else {
           setSession('close');
         }
-      } catch (err) {}
+      } catch (err) {
+        throw err;
+      }
     };
     fetchMarketData();
-  }, [Number(id)]);
+  }, [id]);
 
   const handleDeleteBid = (index: number) => {
     const updatedBids = bids.filter((_, i) => i !== index);
@@ -140,6 +142,7 @@ const SinglePanelBulkPage = () => {
       }
     } catch (error) {
       showSuccessToast('Something went wrong !');
+      throw error;
     }
   };
 
