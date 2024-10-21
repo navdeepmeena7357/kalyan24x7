@@ -8,6 +8,8 @@ import { Toaster } from 'react-hot-toast';
 import { useAuth } from '@/context/AuthContext';
 import LoadingModal from '@/components/LoadingModal';
 import { useUser } from '@/context/UserContext';
+import { FaPhone } from 'react-icons/fa6';
+import { FaLock } from 'react-icons/fa6';
 
 function LoginPage() {
   const { setUser } = useUser();
@@ -55,12 +57,11 @@ function LoginPage() {
   };
 
   const handleLogin = async () => {
-    // Validate the inputs before making the request
     if (!validateInputs()) {
       return;
     }
 
-    setIsLoading(true); // Show loading indicator
+    setIsLoading(true);
 
     try {
       const { token, user } = await login(mobileNumber, password);
@@ -76,7 +77,6 @@ function LoginPage() {
       };
 
       setUser(userData);
-
       authenticate(token);
       showSuccessToast('Login successful!');
       goHome();
@@ -98,21 +98,28 @@ function LoginPage() {
           account
         </h1>
       </div>
-      <div className="mb-6 mt-6">
+      <div className="mb-6 mt-6 relative">
+        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-orange-500 rounded-full p-2">
+          <FaPhone className="text-white" />
+        </div>
         <input
           type="number"
           value={mobileNumber}
-          className="bg-gray-50 border border-gray-300  text-black text-sm rounded-lg focus:border-orange-500 block w-full p-2.5"
+          maxLength={10}
+          className="border-2 border-gray-300 text-black  rounded-full focus:outline-none focus:ring-0 focus:border-orange-500 block w-full pl-12 p-3.5" // Increased left padding to 12
           placeholder="Enter Mobile Number"
           onChange={(e) => setMobileNumber(e.target.value)}
           required
         />
       </div>
-      <div className="mb-6">
+      <div className="mb-6 relative">
+        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-orange-500 rounded-full p-2">
+          <FaLock className="text-white" />
+        </div>
         <input
           type="password"
           value={password}
-          className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5"
+          className="border-2 border-gray-300 text-black  rounded-full focus:outline-none focus:ring-0 focus:border-orange-500 block w-full pl-12 p-3.5" // Increased left padding to 12
           placeholder="•••••••••"
           onChange={(e) => setPassword(e.target.value)}
           required

@@ -1,9 +1,10 @@
 'use client';
+
 import RoundedInput from '@/components/RoundedInput';
 import SafeArea from '@/components/SafeArea';
 import TitleBar from '@/components/TitleBar';
 import { FaUser } from 'react-icons/fa6';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RiBankFill } from 'react-icons/ri';
 import { FaHashtag } from 'react-icons/fa';
 import { IoInfinite } from 'react-icons/io5';
@@ -12,33 +13,65 @@ import 'react-toastify/dist/ReactToastify.css';
 import { SiPaytm } from 'react-icons/si';
 import { SiPhonepe } from 'react-icons/si';
 import { SiGooglepay } from 'react-icons/si';
+import { getTokenFromLocalStorage, getUserIdFromToken } from '@/utils/basic';
+import { BASE_URL } from '@/app/services/api';
+import LoadingModal from '@/components/LoadingModal';
+import {
+  BANK_DETAILS_SAVE_ERROR,
+  BANK_DETAILS_SAVED_SUCCESS,
+  NETWORK_RESPONSE_NOT_OK,
+  PAYMENT_APPS_INVALID,
+  REQUIRED_FIELDS_ERROR,
+} from '@/utils/constants';
 
 type BankDetails = {
-  acHolderName: string;
-  bankName: string;
-  accountNumber: string;
-  ifscCode: string;
+  user_id: string;
+  ac_holder_name: string;
+  bank_name: string;
+  ac_number: string;
+  ifsc_code: string;
 };
 
 type PaymentApps = {
-  paytmNumber?: string;
-  phonePeNumber?: string;
-  gpayNumber?: string;
+  paytm_number?: string;
+  phonepe_number?: string;
+  gpay_number?: string;
+  user_id: string;
 };
+
+export interface BankInfo {
+  user_id: string;
+  ac_holder_name: string;
+  bank_name: string;
+  ac_number: string;
+  ifsc_code: string;
+  paytm_number?: string;
+  gpay_number?: string;
+  phonepe_number?: string;
+  success?: boolean;
+  error?: string;
+}
 
 const BankDetailsPage = () => {
   const [bankDetails, setBankDetails] = useState<BankDetails>({
-    acHolderName: '',
-    bankName: '',
-    accountNumber: '',
-    ifscCode: '',
+    user_id: '',
+    ac_holder_name: '',
+    bank_name: '',
+    ac_number: '',
+    ifsc_code: '',
   });
 
   const [paymentApps, setPaymentApps] = useState<PaymentApps>({
-    paytmNumber: '',
-    phonePeNumber: '',
-    gpayNumber: '',
+    paytm_number: '',
+    phonepe_number: '',
+    gpay_number: '',
+    user_id: '',
   });
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const token = getTokenFromLocalStorage();
+  const userId = getUserIdFromToken();
 
   const handleBankInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -57,12 +90,12 @@ const BankDetailsPage = () => {
   };
 
   const validateRequiredFields = (): boolean => {
-    const { acHolderName, bankName, accountNumber, ifscCode } = bankDetails;
+    const { ac_holder_name, bank_name, ac_number, ifsc_code } = bankDetails;
     return (
-      acHolderName !== '' &&
-      bankName !== '' &&
-      accountNumber !== '' &&
-      validateIfscCode(ifscCode)
+      ac_holder_name !== '' &&
+      bank_name !== '' &&
+      ac_number !== '' &&
+      validateIfscCode(ifsc_code)
     );
   };
 
@@ -71,119 +104,160 @@ const BankDetailsPage = () => {
   };
 
   const validatePaymentApps = (): boolean => {
-    const { paytmNumber, phonePeNumber, gpayNumber } = paymentApps;
-    return paytmNumber !== '' || phonePeNumber !== '' || gpayNumber !== '';
+    const {
+      paytm_number = '',
+      phonepe_number = '',
+      gpay_number = '',
+    } = paymentApps;
+
+    const isValidPaytm = /^\d{10}$/.test(paytm_number);
+    const isValidPhonePe = /^\d{10}$/.test(phonepe_number);
+    const isValidGPay = /^\d{10}$/.test(gpay_number);
+
+    return isValidPaytm || isValidPhonePe || isValidGPay;
   };
+
+  useEffect(() => {
+    const fetchBankDetails = async () => {
+      try {
+        setIsLoading(true);
+        if (!token) {
+          throw new Error('Authorization token is missing.');
+        }
+
+        const response = await fetch(`${BASE_URL}/get_bank_info`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ user_id: userId }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch bank details');
+        }
+
+        const data: BankInfo = await response.json();
+        if (data.success) {
+          setPaymentApps(data);
+          setBankDetails(data);
+        } else {
+          toast.error(data.error);
+        }
+      } catch (error) {
+        console.error('Error fetching bank details:', error);
+        toast.error('Failed to fetch bank details');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchBankDetails();
+  }, []);
 
   const handleSaveBankDetails = async () => {
     if (!validateRequiredFields()) {
-      toast.error('Please fill all required fields correctly.');
+      toast.error(REQUIRED_FIELDS_ERROR);
       return;
     }
 
     try {
-      //   const response = await fetch(
-      //     'https://your-api-endpoint.com/api/bank-details',
-      //     {
-      //       method: 'POST',
-      //       headers: {
-      //         'Content-Type': 'application/json',
-      //       },
-      //       body: JSON.stringify(bankDetails),
-      //     }
-      //   );
+      setIsLoading(true);
+      const bankDetailsWithUserId = {
+        ...bankDetails,
+        user_id: userId,
+      };
 
-      //   if (!response.ok) {
-      //     throw new Error('Network response was not ok');
-      //   }
+      const response = await fetch(`${BASE_URL}/add_bank_info`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(bankDetailsWithUserId),
+      });
 
-      //   toast.success('Bank details saved successfully!');
-      //   setBankDetails({
-      //     acHolderName: '',
-      //     bankName: '',
-      //     accountNumber: '',
-      //     ifscCode: '',
-      //   });
-
-      console.log(JSON.stringify(bankDetails));
+      if (!response.ok) {
+        throw new Error(NETWORK_RESPONSE_NOT_OK);
+      }
+      toast.success(BANK_DETAILS_SAVED_SUCCESS);
     } catch (error) {
-      toast.error('Failed to save bank details. Please try again.');
-      console.error('Error:', error);
+      toast.error(BANK_DETAILS_SAVE_ERROR);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleSavePaymentApps = async () => {
     if (!validatePaymentApps()) {
-      toast.error('Please fill at least one payment app number.');
+      toast.error(PAYMENT_APPS_INVALID);
       return;
     }
 
     try {
-      //   const response = await fetch(
-      //     'https://your-api-endpoint.com/api/payment-apps',
-      //     {
-      //       method: 'POST',
-      //       headers: {
-      //         'Content-Type': 'application/json',
-      //       },
-      //       body: JSON.stringify(paymentApps),
-      //     }
-      //   );
+      setIsLoading(true);
+      const paymentNumbersData = {
+        ...paymentApps,
+        user_id: userId,
+      };
+      const response = await fetch(`${BASE_URL}/add_upi_number`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(paymentNumbersData),
+      });
 
-      //   if (!response.ok) {
-      //     throw new Error('Network response was not ok');
-      //   }
-
-      //   toast.success('Payment app numbers saved successfully!');
-      //   setPaymentApps({
-      //     paytmNumber: '',
-      //     phonePeNumber: '',
-      //     gpayNumber: '',
-      //   });
-
-      console.log(JSON.stringify(paymentApps));
-      console.log(JSON.stringify(paymentApps));
+      if (!response.ok) {
+        throw new Error(NETWORK_RESPONSE_NOT_OK);
+      }
+      toast.success(BANK_DETAILS_SAVED_SUCCESS);
     } catch (error) {
-      toast.error('Failed to save bank details. Please try again.');
-      console.error('Error:', error);
+      toast.error(BANK_DETAILS_SAVE_ERROR);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <>
+      <LoadingModal isOpen={isLoading} />
+
       <TitleBar title="Bank Details" />
       <ToastContainer />
       <SafeArea className={'p-4'}>
         <RoundedInput
-          name="acHolderName"
+          name="ac_holder_name"
           icon={<FaUser />}
           placeholder="A/c Holder Name"
-          value={bankDetails.acHolderName}
+          value={bankDetails.ac_holder_name}
           onChange={handleBankInputChange}
         />
 
         <RoundedInput
-          name="bankName"
+          name="bank_name"
           icon={<RiBankFill />}
           placeholder="Bank Name"
-          value={bankDetails.bankName}
+          value={bankDetails.bank_name}
           onChange={handleBankInputChange}
         />
 
         <RoundedInput
           icon={<FaHashtag />}
-          name="accountNumber"
-          placeholder="Bank Accoubant Number"
-          value={bankDetails.accountNumber}
+          name="ac_number"
+          placeholder="Bank Account Number"
+          value={bankDetails.ac_number}
           onChange={handleBankInputChange}
           type="number"
         />
 
         <RoundedInput
-          name="ifscCode"
+          name="ifsc_code"
           icon={<IoInfinite />}
           placeholder="IFSC Code"
-          value={bankDetails.ifscCode}
+          value={bankDetails.ifsc_code}
           onChange={handleBankInputChange}
         />
 
@@ -199,26 +273,26 @@ const BankDetailsPage = () => {
         <hr className=" h-1 mt-2 bg-black" />
 
         <RoundedInput
-          name="paytmNumber"
+          name="paytm_number"
           icon={<SiPaytm />}
           placeholder="Paytm Number"
-          value={paymentApps.paytmNumber ?? ''}
+          value={paymentApps.paytm_number ?? ''}
           onChange={handlePaymentInputChange}
         />
 
         <RoundedInput
-          name="phonePeNumber"
+          name="phonepe_number"
           icon={<SiPhonepe />}
           placeholder="PhonePe Number"
-          value={paymentApps.phonePeNumber ?? ''}
+          value={paymentApps.phonepe_number ?? ''}
           onChange={handlePaymentInputChange}
         />
 
         <RoundedInput
-          name="gpayNumber"
+          name="gpay_number"
           icon={<SiGooglepay />}
           placeholder="GPay Number"
-          value={paymentApps.gpayNumber ?? ''}
+          value={paymentApps.gpay_number ?? ''}
           onChange={handlePaymentInputChange}
         />
 

@@ -8,6 +8,8 @@ import LoadingModal from '@/components/LoadingModal';
 import { BASE_URL } from '@/app/services/api';
 import Card from '@/components/Card';
 import WithdrawHistoryCard from '@/components/WithdrawHistoryCard';
+import { getTokenFromLocalStorage, getUserIdFromToken } from '@/utils/basic';
+import NoResults from '@/components/NoResults';
 
 interface Withdrawal {
   id: number;
@@ -23,16 +25,12 @@ interface Withdrawal {
 const WithdrawFundHistory = () => {
   const [transactions, setTransactions] = useState<Withdrawal[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [visible, setVisible] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        let token: string | null = null;
-
-        if (typeof window !== 'undefined') {
-          token = localStorage.getItem('token');
-        }
-
+        const token = getTokenFromLocalStorage();
         if (!token) {
           showErrorToast('No token found. Please log in again.');
           return;
@@ -44,14 +42,14 @@ const WithdrawFundHistory = () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ user_id: '153' }),
+          body: JSON.stringify({ user_id: getUserIdFromToken() }),
         });
 
         const data: Withdrawal[] = await response.json();
 
         if (response.ok) {
           setTransactions(data);
-          console.log(data);
+          data.length == 0 ? setVisible(true) : setVisible(false);
         } else {
           showErrorToast('Failed to fetch transactions.');
         }
@@ -75,7 +73,6 @@ const WithdrawFundHistory = () => {
           <div key={transaction.id}>
             <Card>
               <WithdrawHistoryCard
-                desc={transaction.request_message}
                 date={transaction.created_at}
                 status={transaction.request_status}
                 amount={parseFloat(transaction.request_amount)}
@@ -85,6 +82,7 @@ const WithdrawFundHistory = () => {
             </Card>
           </div>
         ))}
+        {visible && <NoResults />}
       </SafeArea>
     </>
   );

@@ -3,6 +3,7 @@ import AlertModal from '@/components/AlertModal';
 import Card from '@/components/Card';
 import ContactOptions from '@/components/ContactOptions';
 import TitleBar from '@/components/TitleBar';
+import UserCard from '@/components/UserWalletCard';
 import { useUser } from '@/context/UserContext';
 import { useWallet } from '@/context/WalletContext';
 import { useState } from 'react';
@@ -40,29 +41,7 @@ const AddFundPage = () => {
       <TitleBar title="Add Fund" />
       <div className="mt-[60px]">
         <Card>
-          <div className="max-w-sm mx-auto mt-10 bg-white rounded-lg overflow-hidden card-shadow">
-            <div className="">
-              <div className="flex justify-between items-center">
-                <div className="p-5"></div>
-              </div>
-              <div className="bg-black p-2">
-                <div className="flex flex-col items-center justify-between text-white  font-semibold">
-                  <p className="font-medium">{user.user?.name ?? '...'}</p>
-                  <p>{user.user?.username ?? '...'}</p>
-                </div>
-              </div>
-              <div className="text-start flex gap-2 m-2">
-                <MdAccountBalanceWallet className="text-orange-500 h-12 w-12" />
-                <div>
-                  <h1 className="text-orange-500 font-semibold text-xl flex items-center">
-                    <BiRupee className="h-6 w-6" /> {points.balance ?? '...'}
-                  </h1>
-                  <h1 className="text-sm text-gray-500">Current Balance</h1>
-                </div>
-              </div>
-              <div className="p-3"></div>
-            </div>
-          </div>
+          <UserCard user={user.user!} balance={points.balance} />
           <hr className=" h-1 mt-2 bg-black" />
           <div className="flex flex-col items-center mt-2">
             <h1 className="font-semibold">For Fund Query&apos;s Contact us</h1>

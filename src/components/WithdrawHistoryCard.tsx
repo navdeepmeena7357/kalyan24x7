@@ -23,7 +23,6 @@ const formatDate = (dateString: string) => {
 interface WithdrawHistoryCardProps {
   date: string;
   status: string;
-  desc: string;
   amount: number;
   txnType: string;
   withdrawMode: string;
@@ -33,7 +32,6 @@ const WithdrawHistoryCard: React.FC<WithdrawHistoryCardProps> = ({
   date,
   status,
   amount,
-  desc,
   txnType,
   withdrawMode,
 }) => {
@@ -52,7 +50,7 @@ const WithdrawHistoryCard: React.FC<WithdrawHistoryCardProps> = ({
           ) : (
             <GoClockFill className="text-yellow-500" />
           )}
-          <h1 className="flex items-center font-semibold text-red-500">
+          <h1 className="flex items-center font-semibold ">
             <MdCurrencyRupee />
             {amount}
           </h1>

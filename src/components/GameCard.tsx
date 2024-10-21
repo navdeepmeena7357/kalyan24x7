@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { convertTo12HourFormat } from '@/utils/time';
 import { getLastDigitOfSum } from '@/utils/basic';
 import { showErrorToast } from '@/utils/toast';
 import { FaPlay } from 'react-icons/fa';
-import { CgClose } from 'react-icons/cg';
 import { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { CgClose } from 'react-icons/cg';
+import AlertModal from './AlertModal';
 
 interface MarketProps {
   market: {
@@ -22,12 +23,11 @@ interface MarketProps {
   };
 }
 
-const showMarketClosed = () => {
-  showErrorToast('Market is Closed for Today');
-};
-
 const GameCard: React.FC<MarketProps> = ({ market }) => {
   const router = useRouter();
+
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   const handleMarketClick = () => {
     const queryParams = new URLSearchParams({
@@ -65,8 +65,24 @@ const GameCard: React.FC<MarketProps> = ({ market }) => {
     marketStatusMessage = 'Market is Closed';
   }
 
+  const handleOpenModal = (message: string) => {
+    setAlertMessage(message);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const showMarketClosed = () => {
+    handleOpenModal('Market is closed for today. Try Tomorrow');
+  };
+
   return (
     <>
+      {isModalOpen && (
+        <AlertModal message={alertMessage} onClose={handleCloseModal} />
+      )}
       <Toaster position="bottom-center" reverseOrder={false} />
       <div
         key={market.id}
@@ -79,12 +95,12 @@ const GameCard: React.FC<MarketProps> = ({ market }) => {
       >
         <div>
           <h2 className="text-[17px] font-semibold">{market.market_name}</h2>
-          <div className="flex font-bold">
+          <div className="flex font-bold items-center">
             <p className="text-orange-500">{market.open_pana}</p>
-            <p className="text-orange-500">
+            <p className="text-orange-500 text-[18px]">
               - {getLastDigitOfSum(market.open_pana)}
             </p>
-            <p className="text-orange-500">
+            <p className="text-orange-500 text-[18px]">
               {getLastDigitOfSum(market.close_pana)} -
             </p>
             <p className="text-orange-500">{market.close_pana}</p>
@@ -92,14 +108,14 @@ const GameCard: React.FC<MarketProps> = ({ market }) => {
 
           <div className="flex gap-2 text-xs">
             <div className="flex flex-col">
-              <h1>Open Bids</h1>
+              <h1 className="text-gray-600">Open Bids</h1>
               <p className="text-gray-700">
                 {convertTo12HourFormat(market.market_open_time)}
               </p>
             </div>
 
             <div className="flex flex-col">
-              <h1>Close Bids</h1>
+              <h1 className="text-gray-600">Close Bids</h1>
               <p className="text-gray-700">
                 {convertTo12HourFormat(market.market_close_time)}
               </p>

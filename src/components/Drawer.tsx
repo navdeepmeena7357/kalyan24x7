@@ -4,6 +4,7 @@ import { showErrorToast } from '@/utils/toast';
 // import { useRouter } from 'next/navigation';
 import { useUser } from '@/context/UserContext';
 import { FaUserCircle } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
 
 interface DrawerProps {
   isOpen: boolean;
@@ -11,26 +12,22 @@ interface DrawerProps {
 }
 
 const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
-  // const [isLoading, setIsLoading] = useState(false);
   const user = useUser();
-  // const router = useRouter();
+  const router = useRouter();
 
   const handleLogout = async () => {
-    //  setIsLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      const authToken = localStorage.getItem('token');
-
-      if (authToken !== null) {
-        localStorage.removeItem('token');
+      if (typeof window !== 'undefined') {
+        const authToken = localStorage.getItem('token');
+        if (authToken !== null) {
+          localStorage.removeItem('token');
+          router.replace('/auth/login');
+        }
       }
-
-      showErrorToast('Token is missing');
+      showErrorToast('Logged out !');
     } catch (err) {
       showErrorToast((err as Error).message);
     } finally {
-      // setIsLoading(false);
     }
   };
 

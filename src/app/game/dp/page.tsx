@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useEffect, Suspense } from 'react';
-// import { useSearchParams } from 'next/navigation';
 import { getMarketInfo, Market } from '@/app/services/api';
 import DropdownSelect from '@/components/SessionDropdown';
 import { MdDelete } from 'react-icons/md';
@@ -11,12 +10,14 @@ import { showErrorToast, showSuccessToast } from '@/utils/toast';
 import { Toaster } from 'react-hot-toast';
 import { doublePanaDigits } from '@/utils/numbers';
 import { FaArrowUpLong } from 'react-icons/fa6';
+import { useSearchParams } from 'next/navigation';
 
 const DoublePanel = () => {
   const user = useUser();
 
   const { balance, refreshBalance } = useWallet();
-
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
   interface Bid {
     market_session: string;
     bet_digit: string;
@@ -127,7 +128,7 @@ const DoublePanel = () => {
   useEffect(() => {
     const fetchMarketData = async () => {
       try {
-        const data = await getMarketInfo(Number('113'));
+        const data = await getMarketInfo(Number(id));
         setMarket(data);
         if (data.open_market_status === 1) {
           setSession('open');

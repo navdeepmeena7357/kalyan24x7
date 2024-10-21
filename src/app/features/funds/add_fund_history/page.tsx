@@ -7,6 +7,8 @@ import { showErrorToast, showSuccessToast } from '@/utils/toast';
 import LoadingModal from '@/components/LoadingModal';
 import { BASE_URL } from '@/app/services/api';
 import Card from '@/components/Card';
+import { getTokenFromLocalStorage, getUserIdFromToken } from '@/utils/basic';
+import NoResults from '@/components/NoResults';
 
 interface Transaction {
   id: number;
@@ -26,20 +28,12 @@ interface ApiResponse {
 const AddFundHistory = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [visible, setVisible] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        let token: string | null = null;
-
-        if (typeof window !== 'undefined') {
-          token = localStorage.getItem('token');
-        }
-
-        if (!token) {
-          showErrorToast('No token found. Please log in again.');
-          return;
-        }
+        const token = getTokenFromLocalStorage();
 
         const response = await fetch(`${BASE_URL}/add_fund_history`, {
           method: 'POST',
@@ -47,14 +41,14 @@ const AddFundHistory = () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ user_id: '153' }),
+          body: JSON.stringify({ user_id: getUserIdFromToken() }),
         });
 
         const data: ApiResponse = await response.json();
 
         if (data.success) {
           setTransactions(data.data);
-          console.log(data.data);
+          data.data.length == 0 ? setVisible(true) : setVisible(false);
         } else {
           showErrorToast('Failed to fetch transactions.');
         }
@@ -87,6 +81,7 @@ const AddFundHistory = () => {
             </Card>
           </div>
         ))}
+        {visible && <NoResults />}
       </SafeArea>
     </>
   );

@@ -9,6 +9,7 @@ import { showSuccessToast, showErrorToast } from '@/utils/toast';
 import { FaArrowUpLong } from 'react-icons/fa6';
 import { doublePanaDigits } from '@/utils/numbers';
 import { MdDelete } from 'react-icons/md';
+import { useSearchParams } from 'next/navigation';
 
 interface Bid {
   market_session: string;
@@ -22,6 +23,8 @@ interface Bid {
 const SinglePanelBulkPage = () => {
   const user = useUser();
   const { balance, refreshBalance } = useWallet();
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
 
   const [market, setMarket] = useState<Market | null>(null);
   const [bids, setBids] = useState<Bid[]>([]);
@@ -86,7 +89,7 @@ const SinglePanelBulkPage = () => {
   useEffect(() => {
     const fetchMarketData = async () => {
       try {
-        const data = await getMarketInfo(Number('113'));
+        const data = await getMarketInfo(Number(id));
         setMarket(data);
         if (data.open_market_status == 1) {
           setSession('open');

@@ -1,3 +1,5 @@
+import { getTokenFromLocalStorage } from '@/utils/basic';
+
 interface Bid {
   market_session: string;
   bet_digit: string;
@@ -114,6 +116,7 @@ export const getMarketInfo = async (id: number): Promise<Market> => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${getTokenFromLocalStorage()}`,
       },
       body: JSON.stringify({ market_id: id }),
     });
@@ -199,3 +202,40 @@ export interface BidResponse {
   status: number;
   bidss: BidsData[];
 }
+
+// Define an interface for the response data
+interface PaymentDetails {
+  id: number;
+  upi_id: string;
+  min_amount: number;
+  max_amount: number;
+  payment_desc: string;
+  business_name: string;
+  withdrawal_time_title: string;
+  min_withdrawal: number;
+  merchant_code: string;
+  max_withdrawal: number;
+}
+
+const fetchPaymentDetails = async (
+  url: string
+): Promise<PaymentDetails | null> => {
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data: PaymentDetails = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching payment details:', error);
+    return null;
+  }
+};

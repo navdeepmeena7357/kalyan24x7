@@ -5,6 +5,7 @@ import { AuthProvider } from '@/context/AuthContext';
 import { AppDataProvider } from '@/context/AppDataContext';
 import { WalletProvider } from '@/context/WalletContext';
 import { UserProvider } from '@/context/UserContext';
+import { PaymentProvider } from '@/context/PaymentContext';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -32,13 +33,15 @@ export default function RootLayout({
       <AppDataProvider>
         <WalletProvider>
           <UserProvider>
-            <html lang="en">
-              <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-00`}
-              >
-                {children}
-              </body>
-            </html>
+            <PaymentProvider>
+              <html lang="en">
+                <body
+                  className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-00`}
+                >
+                  {children}
+                </body>
+              </html>
+            </PaymentProvider>
           </UserProvider>
         </WalletProvider>
       </AppDataProvider>

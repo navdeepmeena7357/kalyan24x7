@@ -26,7 +26,7 @@ const TitleBar: React.FC<TitleBarProps> = ({ title, onBack }) => {
       </div>
       <div className="flex items-center mr-2 gap-1">
         <FaWallet />
-        <h1>{wallet.balance ?? '.....'}</h1>
+        <h1>{wallet.balance ?? '...'}</h1>
       </div>
     </nav>
   );

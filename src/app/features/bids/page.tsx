@@ -8,6 +8,7 @@ import { BASE_URL, BidResponse, BidsData } from '@/app/services/api';
 import LoadingModal from '@/components/LoadingModal';
 import NoResults from '@/components/NoResults';
 import Card from '@/components/Card';
+import { getTokenFromLocalStorage, getUserIdFromToken } from '@/utils/basic';
 
 const BidsPage = () => {
   const sessionOptions = [
@@ -86,7 +87,7 @@ const BidsPage = () => {
   const handleSearchBids = useCallback(async () => {
     setIsLoading(true);
     try {
-      const requestBody: any = { user_id: 153 };
+      const requestBody: any = { user_id: getUserIdFromToken() };
 
       if (marketId) requestBody.market_id = marketId;
       if (bidType) requestBody.bid_type = bidType;
@@ -97,9 +98,9 @@ const BidsPage = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
         },
-        body: JSON.stringify(requestBody),
+        body: JSON.stringify({ requestBody }),
       });
 
       const result: BidResponse = await response.json();
