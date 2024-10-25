@@ -8,7 +8,6 @@ import { useUser } from '@/context/UserContext';
 import { useWallet } from '@/context/WalletContext';
 import { useState } from 'react';
 import { BiRupee } from 'react-icons/bi';
-import { MdAccountBalanceWallet } from 'react-icons/md';
 
 const AddFundPage = () => {
   const user = useUser();

@@ -20,6 +20,7 @@ import { IoChatbubbleEllipsesOutline } from 'react-icons/io5';
 import { IoMdHome } from 'react-icons/io';
 import { useRouter } from 'next/navigation';
 import { MdWallet } from 'react-icons/md';
+import { useUser } from '@/context/UserContext';
 
 export interface MarketData {
   id: number;
@@ -41,6 +42,7 @@ const Navbar = () => {
   const appData = useAppData();
   const [isOpen, setIsOpen] = useState(false);
   const wallet = useWallet();
+  const { user } = useUser();
 
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
@@ -62,19 +64,29 @@ const Navbar = () => {
             height={154}
             alt="Kalyan 777 Logo"
           ></Image>
+
           <Drawer isOpen={isOpen} onClose={toggleDrawer} />
         </div>
 
-        <div className="text-black flex items-center space-x-1">
-          <MdWallet className="w-7 h-7" />
-          <h1>{wallet.balance}</h1>
-        </div>
+        {user?.isVerified ? (
+          <div className="text-black flex items-center space-x-1">
+            <MdWallet className="w-7 h-7" />
+            <h1>{wallet.balance}</h1>
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
       <div className="text-black mt-1">
-        <Marquee
-          text={appData.contactDetails?.banner_message.toString() ?? ' '}
-        />
-        <WalletOptions />
+        {user?.isVerified ? (
+          <Marquee
+            text={appData.contactDetails?.banner_message.toString() ?? ' '}
+          />
+        ) : (
+          <div></div>
+        )}
+
+        {user?.isVerified ? <WalletOptions /> : <div></div>}
         <ContactOptions />
       </div>
     </nav>
@@ -83,6 +95,16 @@ const Navbar = () => {
 
 const BottomNavBar = () => {
   const router = useRouter();
+  const appData = useAppData();
+  const { user } = useUser();
+  const handleWhatsAppClick = () => {
+    const phoneNumber = appData.contactDetails?.whatsapp_numebr;
+    const message = `Hi Admin. ( ${user?.name ?? ''} : ${user?.username ?? ''} )`;
+    window.open(
+      `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
+      '_blank'
+    );
+  };
 
   const handleNavigation = (route: string) => {
     router.push(`features/${route}`);
@@ -91,38 +113,57 @@ const BottomNavBar = () => {
   return (
     <nav className="bg-white border-t-2 items-center fixed bottom-0 left-0 right-0 p-2">
       <div className="flex bg-white  justify-between items-center">
-        <div
-          onClick={() => handleNavigation('bids')}
-          className="flex gap-2 flex-col items-center justify-items-center"
-        >
-          <FaReceipt className="h-5 w-5" />
-          <h1 className="text-sm font-medium">My Bids</h1>
-        </div>
+        {user?.isVerified ? (
+          <div
+            onClick={() => handleNavigation('bids')}
+            className="flex gap-2 flex-col items-center justify-items-center"
+          >
+            <FaReceipt className="h-5 w-5" />
+            <h1 className="text-sm font-medium">My Bids</h1>
+          </div>
+        ) : (
+          <div></div>
+        )}
 
-        <div
-          onClick={() => handleNavigation('game_rate')}
-          className="flex gap-2 flex-col items-center justify-items-center"
-        >
-          <FaRupeeSign className="h-5 w-5" />
-          <h1 className="text-sm font-medium">Game Rate</h1>
-        </div>
+        {user?.isVerified ? (
+          <div
+            onClick={() => handleNavigation('game_rate')}
+            className="flex gap-2 flex-col items-center justify-items-center"
+          >
+            <FaRupeeSign className="h-5 w-5" />
+            <h1 className="text-sm font-medium">Game Rate</h1>
+          </div>
+        ) : (
+          <div></div>
+        )}
 
         <div className="flex gap-2 rounded-full bg-orange-500 flex-col items-center justify-items-center">
           <IoMdHome className="h-6 w-6 m-3 text-white" />
         </div>
 
-        <div
-          onClick={() => handleNavigation('funds')}
-          className="flex gap-2 flex-col items-center justify-items-center"
-        >
-          <RiBankFill className="h-5 w-5" />
-          <h1 className="text-sm font-medium">Funds</h1>
-        </div>
+        {user?.isVerified ? (
+          <div
+            onClick={() => handleNavigation('funds')}
+            className="flex gap-2 flex-col items-center justify-items-center"
+          >
+            <RiBankFill className="h-5 w-5" />
+            <h1 className="text-sm font-medium">Funds</h1>
+          </div>
+        ) : (
+          <div></div>
+        )}
 
-        <div className="flex gap-2 flex-col items-center justify-items-center">
-          <IoChatbubbleEllipsesOutline className="h-5 w-5" />
-          <h1 className="text-sm font-medium">Support</h1>
-        </div>
+        {user?.isVerified ? (
+          <div
+            onClick={handleWhatsAppClick}
+            className="flex gap-2 flex-col items-center justify-items-center"
+          >
+            <IoChatbubbleEllipsesOutline className="h-5 w-5" />
+            <h1 className="text-sm font-medium">Support</h1>
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </nav>
   );
@@ -135,9 +176,8 @@ const GameList = () => {
   useEffect(() => {
     setIsLoading(true);
     const fetchMarketData = async () => {
-      const response = await fetch(`${BASE_URL}/markets`); // Adjust the URL to your API endpoint
+      const response = await fetch(`${BASE_URL}/markets`);
       const data: MarketData[] = await response.json();
-      console.log(data);
       setMarketData(data);
       setIsLoading(false);
     };
@@ -157,9 +197,11 @@ const GameList = () => {
 
 const Home: React.FC = () => {
   const { refreshBalance } = useWallet();
+  const { user } = useUser();
   useEffect(() => {
     refreshBalance();
   });
+
   return (
     <Suspense>
       <ProtectedRoute>

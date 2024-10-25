@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { convertTo12HourFormat } from '@/utils/time';
 import { getLastDigitOfSum } from '@/utils/basic';
-import { showErrorToast } from '@/utils/toast';
 import { FaPlay } from 'react-icons/fa';
 import { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { CgClose } from 'react-icons/cg';
 import AlertModal from './AlertModal';
+import { useUser } from '@/context/UserContext';
 
 interface MarketProps {
   market: {
@@ -25,6 +25,7 @@ interface MarketProps {
 
 const GameCard: React.FC<MarketProps> = ({ market }) => {
   const router = useRouter();
+  const { user } = useUser();
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -38,7 +39,13 @@ const GameCard: React.FC<MarketProps> = ({ market }) => {
       open_status: market.open_market_status.toString(),
       close_status: market.close_market_status.toString(),
     });
-    router.push(`/game?${queryParams.toString()}`);
+    if (user?.isVerified) {
+      router.push(`/game?${queryParams.toString()}`);
+    } else {
+      handleOpenModal(
+        `${market.market_name} : ${market.market_open_time} | ${market.market_close_time}`
+      );
+    }
   };
 
   const isMarketOpen = market.open_market_status === 1;

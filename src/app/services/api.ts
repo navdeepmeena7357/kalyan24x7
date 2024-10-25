@@ -15,84 +15,8 @@ export interface PostBidsResponse {
   success: boolean;
 }
 
-export interface ApiResponse<T> {
-  data: T | null;
-  error: string | null;
-}
-
 export const BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || 'https://blacksattamatka.in/api/';
-
-// Utility function to handle GET requests
-
-export const getRequest = async <T>(
-  endpoint: string,
-  includeAuth: boolean = false // Add a flag to control token inclusion
-): Promise<ApiResponse<T>> => {
-  try {
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-    };
-
-    // Conditionally add the Authorization header if includeAuth is true
-    if (includeAuth) {
-      const token = localStorage.getItem('token');
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-      }
-    }
-
-    const response = await fetch(`${BASE_URL}${endpoint}`, {
-      method: 'GET',
-      headers,
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`);
-    }
-
-    const data: T = await response.json();
-    return { data, error: null };
-  } catch (error) {
-    return { data: null, error: (error as Error).message };
-  }
-};
-
-// Utility function to handle POST requests
-export const postRequest = async <T, U>(
-  endpoint: string,
-  body: T,
-  includeAuth: boolean = false // Add a flag to control token inclusion
-): Promise<ApiResponse<U>> => {
-  try {
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-    };
-
-    // Conditionally add the Authorization header if includeAuth is true
-    if (includeAuth) {
-      const token = localStorage.getItem('jwtToken');
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-      }
-    }
-
-    const response = await fetch(`${BASE_URL}${endpoint}`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(body),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`);
-    }
-
-    const data: U = await response.json();
-    return { data, error: null };
-  } catch (error) {
-    return { data: null, error: (error as Error).message };
-  }
-};
 
 export interface Market {
   id: number;
@@ -202,40 +126,3 @@ export interface BidResponse {
   status: number;
   bidss: BidsData[];
 }
-
-// Define an interface for the response data
-interface PaymentDetails {
-  id: number;
-  upi_id: string;
-  min_amount: number;
-  max_amount: number;
-  payment_desc: string;
-  business_name: string;
-  withdrawal_time_title: string;
-  min_withdrawal: number;
-  merchant_code: string;
-  max_withdrawal: number;
-}
-
-const fetchPaymentDetails = async (
-  url: string
-): Promise<PaymentDetails | null> => {
-  try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    const data: PaymentDetails = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching payment details:', error);
-    return null;
-  }
-};

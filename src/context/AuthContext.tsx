@@ -23,10 +23,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  // Check for token in localStorage on mount
   useEffect(() => {
     if (isLocalStorageItemNotEmpty()) {
-      setIsAuthenticated(true); // Set authenticated state if token exists
+      setIsAuthenticated(true);
     }
   }, []);
 
@@ -48,7 +47,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   );
 };
 
-// Custom hook for using the Auth context
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -64,8 +62,8 @@ function isLocalStorageItemNotEmpty() {
 
 const getSubFromToken = (token: string): string => {
   try {
-    const decodedToken = jwt.decode(token) as jwt.JwtPayload; // Cast as JwtPayload to access `sub`
-    return decodedToken?.sub ?? 'null'; // Extract the `sub` claim (user ID)
+    const decodedToken = jwt.decode(token) as jwt.JwtPayload;
+    return decodedToken?.sub ?? 'null';
   } catch (error) {
     console.error('Error decoding token:', error);
     return 'null';

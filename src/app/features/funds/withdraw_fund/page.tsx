@@ -141,7 +141,9 @@ const AddFundPage = () => {
       if (
         !isCurrentTimeWithinWithdrawTime(withdrawOpenTime, withdrawCloseTime)
       ) {
-        setError('Withdrawals are only allowed between 07:00 AM and 10:00 AM.');
+        setError(
+          `Withdrawals time between ${withdrawOpenTime} AM and ${withdrawCloseTime} AM.`
+        );
         return;
       }
       if (isNaN(withdrawAmount)) {

@@ -27,7 +27,7 @@ const GamePage: NextPage = () => {
           key={'single'}
           className="p-4 flex flex-col items-center"
         >
-          <div className="rounded-full bg-white p-5">
+          <div className="rounded-full bg-white p-5 shadow-gray-300 shadow-sm">
             <Image
               src="/images/bids/p_sa.png"
               width={54}
@@ -43,7 +43,7 @@ const GamePage: NextPage = () => {
           onClick={() => handleNavigation('single/bulk')}
           className="p-4 flex flex-col items-center"
         >
-          <div className="rounded-full bg-white p-5">
+          <div className="rounded-full bg-white p-5 shadow-gray-300 shadow-sm">
             <Image
               src="/images/bids/p_sa.png"
               width={54}
@@ -61,7 +61,7 @@ const GamePage: NextPage = () => {
               onClick={() => handleNavigation('jodi')}
               className="p-4 flex flex-col items-center"
             >
-              <div className="rounded-full bg-white p-5">
+              <div className="rounded-full bg-white p-5 shadow-gray-300 shadow-sm">
                 <Image
                   src="/images/bids/p_j.png"
                   width={54}
@@ -76,7 +76,7 @@ const GamePage: NextPage = () => {
               onClick={() => handleNavigation('jodi/bulk')}
               className="p-4 flex flex-col items-center"
             >
-              <div className="rounded-full bg-white p-5">
+              <div className="rounded-full bg-white p-5 shadow-gray-300 shadow-sm">
                 <Image
                   src="/images/bids/p_j.png"
                   width={54}
@@ -96,7 +96,7 @@ const GamePage: NextPage = () => {
           onClick={() => handleNavigation('sp')}
           className="p-4 flex flex-col items-center"
         >
-          <div className="rounded-full bg-white p-5">
+          <div className="rounded-full bg-white p-5 shadow-gray-300 shadow-sm">
             <Image
               src="/images/bids/p_sp.png"
               width={54}
@@ -127,7 +127,7 @@ const GamePage: NextPage = () => {
           onClick={() => handleNavigation('dp')}
           className="p-4 flex flex-col items-center"
         >
-          <div className="rounded-full bg-white p-5">
+          <div className="rounded-full bg-white p-5 shadow-gray-300 shadow-sm">
             <Image
               src="/images/bids/p_dp.png"
               width={54}
@@ -142,7 +142,7 @@ const GamePage: NextPage = () => {
           onClick={() => handleNavigation('dp/bulk')}
           className="p-4 flex flex-col items-center"
         >
-          <div className="rounded-full bg-white p-5">
+          <div className="rounded-full bg-white p-5 shadow-gray-300 shadow-sm">
             <Image
               src="/images/bids/p_dp.png"
               width={54}
@@ -158,7 +158,7 @@ const GamePage: NextPage = () => {
           onClick={() => handleNavigation('tp')}
           className="p-4 flex flex-col items-center"
         >
-          <div className="rounded-full bg-white p-5">
+          <div className="rounded-full bg-white p-5 shadow-gray-300 shadow-sm">
             <Image
               src="/images/bids/p_tp.png"
               width={54}
@@ -169,7 +169,7 @@ const GamePage: NextPage = () => {
           <h1 className="mt-2 text-sm">Triple Panna</h1>
         </div>
         <div key={'pana_family'} className="p-4 flex flex-col items-center">
-          <div className="rounded-full bg-white p-5">
+          <div className="rounded-full bg-white p-5 shadow-gray-300 shadow-sm">
             <Image
               src="/images/bids/p_pf.png"
               width={54}
@@ -185,7 +185,7 @@ const GamePage: NextPage = () => {
           onClick={() => handleNavigation('sp_motor')}
           className="p-4 flex flex-col items-center"
         >
-          <div className="rounded-full bg-white p-5">
+          <div className="rounded-full bg-white p-5 shadow-gray-300 shadow-sm">
             <Image
               src="/images/bids/p_spm.png"
               width={54}
@@ -200,7 +200,7 @@ const GamePage: NextPage = () => {
           onClick={() => handleNavigation('dp_motor')}
           className="p-4 flex flex-col items-center"
         >
-          <div className="rounded-full bg-white p-5">
+          <div className="rounded-full bg-white p-5 shadow-gray-300 shadow-sm">
             <Image
               src="/images/bids/p_dpm.png"
               width={54}
@@ -218,7 +218,7 @@ const GamePage: NextPage = () => {
               onClick={() => handleNavigation('jf')}
               className="p-4 flex flex-col items-center"
             >
-              <div className="rounded-full bg-white p-5">
+              <div className="rounded-full bg-white p-5 shadow-gray-300 shadow-sm">
                 <Image
                   src="/images/bids/p_jf.png"
                   width={54}
@@ -233,7 +233,7 @@ const GamePage: NextPage = () => {
               onClick={() => handleNavigation('red_jodi')}
               className="p-4 flex flex-col items-center"
             >
-              <div className="rounded-full bg-white p-5">
+              <div className="rounded-full bg-white p-5 shadow-gray-300 shadow-sm">
                 <Image
                   src="/images/bids/p_j.png"
                   width={54}
@@ -255,7 +255,7 @@ const GamePage: NextPage = () => {
               onClick={() => handleNavigation('hs_a')}
               className="p-4 flex flex-col items-center"
             >
-              <div className="rounded-full bg-white p-5">
+              <div className="rounded-full bg-white p-5 shadow-gray-300 shadow-sm">
                 <Image
                   src="/images/bids/p_hs.png"
                   width={54}
@@ -270,7 +270,7 @@ const GamePage: NextPage = () => {
               onClick={() => handleNavigation('hs_b')}
               className="p-4 flex flex-col items-center"
             >
-              <div className="rounded-full bg-white p-5">
+              <div className="rounded-full bg-white p-5 shadow-gray-300 shadow-sm">
                 <Image
                   src="/images/bids/p_hs.png"
                   width={54}
@@ -285,7 +285,7 @@ const GamePage: NextPage = () => {
               onClick={() => handleNavigation('full_sangam')}
               className="p-4 flex flex-col items-center"
             >
-              <div className="rounded-full bg-white p-5">
+              <div className="rounded-full bg-white p-5 shadow-gray-300 shadow-sm">
                 <Image
                   src="/images/bids/p_fs.png"
                   width={54}

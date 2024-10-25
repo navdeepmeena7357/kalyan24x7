@@ -14,6 +14,7 @@ interface UserData {
 interface UserContextType {
   user: UserData | null;
   setUser: (user: UserData) => void;
+  logoutUser: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -28,6 +29,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     localStorage.setItem('user', JSON.stringify(data));
   };
 
+  const logoutUser = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+  };
+
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
@@ -36,7 +42,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser: saveUserData }}>
+    <UserContext.Provider value={{ user, setUser: saveUserData, logoutUser }}>
       {children}
     </UserContext.Provider>
   );

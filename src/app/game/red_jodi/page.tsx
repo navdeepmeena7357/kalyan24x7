@@ -30,7 +30,6 @@ const RedJodi = () => {
   const [amount, setAmount] = useState('');
   const [session, setSession] = useState<string>('');
 
-  //Session Options for Dropdown
   const options = [
     {
       value: 'null',
