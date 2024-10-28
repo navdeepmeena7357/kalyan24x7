@@ -9,14 +9,7 @@ const ContactOptions = () => {
 
   const handleWhatsAppClick = () => {
     const phoneNumber = contactDetails.contactDetails?.whatsapp_numebr;
-    const message = `Hi Admin. ( ${user.user?.name ?? ''} : ${user.user?.username ?? ''} )`;
-
-    const whatsappUrl = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
-
-    const success = window.open(whatsappUrl, '_blank');
-    if (!success) {
-      alert('Please copy the link and open it in WhatsApp:\n' + whatsappUrl);
-    }
+    window.open(`https://wa.me/${phoneNumber}`, '_blank');
   };
 
   const handleCallClick = () => {
