@@ -1,11 +1,9 @@
 import { FaWhatsapp } from 'react-icons/fa';
 import { MdAddCall } from 'react-icons/md';
 import { useAppData } from '@/context/AppDataContext';
-import { useUser } from '@/context/UserContext';
 
 const ContactOptions = () => {
   const contactDetails = useAppData();
-  const user = useUser();
 
   const handleWhatsAppClick = () => {
     const phoneNumber = contactDetails.contactDetails?.whatsapp_numebr;
