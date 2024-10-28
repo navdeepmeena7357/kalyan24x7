@@ -13,10 +13,7 @@ const ContactOptions = () => {
       return;
     }
     const whatsappUrl = `https://wa.me/${phoneNumber}`;
-    const success = window.open(whatsappUrl, '_blank');
-    if (!success) {
-      alert('Please copy the link and open it in WhatsApp:\n' + whatsappUrl);
-    }
+    window.location.href = whatsappUrl;
   };
 
   const handleCallClick = () => {
