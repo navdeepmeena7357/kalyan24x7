@@ -12,7 +12,7 @@ const ContactOptions = () => {
       alert('Phone number is not available.');
       return;
     }
-    const whatsappUrl = `https://wa.me/${phoneNumber}`;
+    const whatsappUrl = `whatsapp://send?phone=${phoneNumber}`;
     window.location.href = whatsappUrl;
   };
 
