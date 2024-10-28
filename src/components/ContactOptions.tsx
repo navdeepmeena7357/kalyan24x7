@@ -6,8 +6,17 @@ const ContactOptions = () => {
   const contactDetails = useAppData();
 
   const handleWhatsAppClick = () => {
-    const phoneNumber = contactDetails.contactDetails?.whatsapp_numebr;
-    window.open(`https://wa.me/${phoneNumber}`, '_blank');
+    const rawPhoneNumber = contactDetails.contactDetails?.whatsapp_numebr;
+    const phoneNumber = rawPhoneNumber ? rawPhoneNumber.replace(/\D/g, '') : '';
+    if (!phoneNumber) {
+      alert('Phone number is not available.');
+      return;
+    }
+    const whatsappUrl = `https://wa.me/${phoneNumber}`;
+    const success = window.open(whatsappUrl, '_blank');
+    if (!success) {
+      alert('Please copy the link and open it in WhatsApp:\n' + whatsappUrl);
+    }
   };
 
   const handleCallClick = () => {
