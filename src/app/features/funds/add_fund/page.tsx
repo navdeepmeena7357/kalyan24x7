@@ -39,7 +39,7 @@ const AddFundPage = () => {
   const handleCreateOrder = async () => {
     if (!amount || parseFloat(amount) < (paymentDetails?.min_amount || 0)) {
       setError(
-        `Please enter an amount of at least ${paymentDetails?.min_amount}.`
+        `Please enter amount of at least ${paymentDetails?.min_amount}.`
       );
       return;
     }
