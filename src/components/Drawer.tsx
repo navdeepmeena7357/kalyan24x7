@@ -36,9 +36,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
         console.error('Error sharing:', error);
       }
     } else {
-      alert(
-        'Download app from this link : ' + appData.contactDetails?.app_link
-      );
+      alert('Download app : ' + appData.contactDetails?.app_link);
     }
   };
 
