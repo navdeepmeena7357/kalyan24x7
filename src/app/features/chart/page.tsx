@@ -4,6 +4,7 @@ import { BASE_URL } from '@/app/services/api';
 import SafeArea from '@/components/SafeArea';
 import TitleBar from '@/components/TitleBar';
 import { getTokenFromLocalStorage } from '@/utils/basic';
+import { showErrorToast } from '@/utils/toast';
 import { useEffect, useState } from 'react';
 
 async function fetchGameMarkets() {
@@ -27,8 +28,12 @@ async function fetchGameMarkets() {
       showErrorDialog('Unable to fetch markets');
       return [];
     }
-  } catch (error) {
-    showErrorDialog('Error fetching markets');
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      showErrorDialog(error.message);
+    } else {
+      showErrorDialog('An unexpected error occurred');
+    }
     return [];
   }
 }
@@ -61,8 +66,12 @@ async function getGameChart(marketId: number): Promise<string> {
       showErrorDialog('Unable to get chart for the game');
       return 'Cannot load market chart';
     }
-  } catch (error) {
-    showErrorDialog('Unable to get History');
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      showErrorToast(error.message);
+    } else {
+      showErrorToast('An unexpected error occurred');
+    }
     return 'Cannot load market chart';
   }
 }
@@ -152,5 +161,5 @@ const GameChart = () => {
 };
 export default GameChart;
 function showErrorDialog(arg0: string) {
-  throw new Error('Function not implemented.');
+  throw new Error('Function not implemented.' + arg0);
 }

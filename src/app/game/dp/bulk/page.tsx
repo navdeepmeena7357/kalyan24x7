@@ -101,7 +101,7 @@ const SinglePanelBulkPage = () => {
       }
     };
     fetchMarketData();
-  }, []);
+  }, [id]);
 
   const handleSubmitBids = async () => {
     if (bids.length === 0) {

@@ -50,8 +50,12 @@ export const PaymentProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const data: PaymentDetails = await response.json();
       setPaymentDetails(data);
-    } catch (error: any) {
-      setErrorPay(error || 'Failed to fetch payment details');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorPay(error.message);
+      } else {
+        setErrorPay('Failed to fetch payment details');
+      }
     } finally {
       setIsLoading(false);
     }

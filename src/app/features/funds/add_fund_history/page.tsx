@@ -48,7 +48,7 @@ const AddFundHistory = () => {
 
         if (data.success) {
           setTransactions(data.data);
-          data.data.length == 0 ? setVisible(true) : setVisible(false);
+          setVisible(data.data.length === 0);
         } else {
           showErrorToast('Failed to fetch transactions.');
         }

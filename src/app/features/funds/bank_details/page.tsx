@@ -154,7 +154,7 @@ const BankDetailsPage = () => {
     };
 
     fetchBankDetails();
-  }, []);
+  }, [token, userId]);
 
   const handleSaveBankDetails = async () => {
     if (!validateRequiredFields()) {
@@ -183,6 +183,7 @@ const BankDetailsPage = () => {
       }
       toast.success(BANK_DETAILS_SAVED_SUCCESS);
     } catch (error) {
+      console.log(error);
       toast.error(BANK_DETAILS_SAVE_ERROR);
     } finally {
       setIsLoading(false);
@@ -215,6 +216,7 @@ const BankDetailsPage = () => {
       }
       toast.success(BANK_DETAILS_SAVED_SUCCESS);
     } catch (error) {
+      console.log(error);
       toast.error(BANK_DETAILS_SAVE_ERROR);
     } finally {
       setIsLoading(false);

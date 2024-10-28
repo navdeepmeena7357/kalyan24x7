@@ -126,3 +126,51 @@ export interface BidResponse {
   status: number;
   bidss: BidsData[];
 }
+
+interface CreateOrderRequest {
+  key: string;
+  client_txn_id: string;
+  amount: string;
+  p_info: string;
+  customer_name: string;
+  customer_email: string;
+  customer_mobile: string;
+  redirect_url: string;
+  udf1?: string;
+  udf2?: string;
+  udf3?: string;
+}
+
+export interface CreateOrderResponse {
+  status: boolean;
+  msg: string;
+  data: {
+    order_id: number;
+    payment_url: string;
+    upi_id_hash: string;
+    upi_intent?: {
+      bhim_link?: string;
+      phonepe_link?: string;
+      paytm_link?: string;
+      gpay_link?: string;
+    };
+  };
+}
+
+export async function createOrder(
+  data: CreateOrderRequest
+): Promise<CreateOrderResponse> {
+  const response = await fetch('/api/proxy', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to create order: ${response.statusText}`);
+  }
+
+  return response.json();
+}

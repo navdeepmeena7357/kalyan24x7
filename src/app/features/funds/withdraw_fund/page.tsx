@@ -40,7 +40,7 @@ const AddFundPage = () => {
   const points = useWallet();
   const appData = useAppData();
   const [amount, setAmount] = useState('');
-  const { paymentDetails, errorPay, isLoading } = usePayment();
+  const { paymentDetails, isLoading } = usePayment();
   const [modalVisible, setModalVisible] = useState(false);
   const [bankDetails, setBankDetails] = useState<BankDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -78,6 +78,7 @@ const AddFundPage = () => {
         setError(data.error);
       }
     } catch (err) {
+      console.log(err);
       setError('Bank Details not found !');
     } finally {
       setLoading(false);
@@ -86,20 +87,19 @@ const AddFundPage = () => {
 
   useEffect(() => {
     fetchBankDetails();
-
-    user.user?.isWithdrawAllowed == 0
-      ? setIsDisabled(true)
-      : setIsDisabled(false);
+    setIsDisabled(user.user?.isWithdrawAllowed === 0);
   }, [user.user]);
 
   const minWithdrawAmount = paymentDetails?.min_withdrawal;
   const maxWithdrawAmount = paymentDetails?.max_withdrawal;
-  const withdrawOpenTime = appData.contactDetails?.withdraw_open_time!;
-  const withdrawCloseTime = appData.contactDetails?.withdraw_close_time!;
+  const withdrawOpenTime = appData.contactDetails?.withdraw_open_time;
+  const withdrawCloseTime = appData.contactDetails?.withdraw_close_time;
 
   const handleAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError(null);
-    setAmount(e.target.value);
+    if (e.target.value) {
+      setAmount(e.target.value);
+    }
   };
 
   const isCurrentTimeWithinWithdrawTime = (
@@ -139,7 +139,10 @@ const AddFundPage = () => {
 
     if (withdrawAmount) {
       if (
-        !isCurrentTimeWithinWithdrawTime(withdrawOpenTime, withdrawCloseTime)
+        !isCurrentTimeWithinWithdrawTime(
+          withdrawOpenTime || '10:00',
+          withdrawCloseTime || '10:00'
+        )
       ) {
         setError(
           `Withdrawals time between ${withdrawOpenTime} AM and ${withdrawCloseTime} AM.`
@@ -195,7 +198,7 @@ const AddFundPage = () => {
 
     if (data.status) {
       showSuccessToast('Request Sent ! Wait for 10-30 minutes');
-      points.refreshBalance;
+      points.refreshBalance();
       router.replace('/features/funds/withdraw_fund_history');
       setAmount('');
       setModalVisible(false);

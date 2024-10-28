@@ -1,5 +1,4 @@
 'use client';
-import DepositHistoryCard from '@/components/DepositHistoryCard';
 import SafeArea from '@/components/SafeArea';
 import TitleBar from '@/components/TitleBar';
 import React, { useState, useEffect } from 'react';
@@ -49,7 +48,7 @@ const WithdrawFundHistory = () => {
 
         if (response.ok) {
           setTransactions(data);
-          data.length == 0 ? setVisible(true) : setVisible(false);
+          setVisible(data.length === 0);
         } else {
           showErrorToast('Failed to fetch transactions.');
         }

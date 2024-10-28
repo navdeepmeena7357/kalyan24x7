@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import ContactOptions from '@/components/ContactOptions';
 import { useRouter } from 'next/navigation';
 import { login } from '@/app/services/auth';
-import { showErrorToast, showSuccessToast } from '@/utils/toast';
+import { showErrorToast } from '@/utils/toast';
 import { Toaster } from 'react-hot-toast';
 import { useAuth } from '@/context/AuthContext';
 import LoadingModal from '@/components/LoadingModal';

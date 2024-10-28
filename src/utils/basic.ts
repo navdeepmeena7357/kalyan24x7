@@ -30,3 +30,7 @@ export const getUserIdFromToken = (): string | null => {
     return null;
   }
 };
+
+export const generateTxnId = (): string => {
+  return Math.random().toString(36).substr(2, 10).toUpperCase(); // Random alphanumeric, uppercase, 10 characters
+};

@@ -197,7 +197,6 @@ const GameList = () => {
 
 const Home: React.FC = () => {
   const { refreshBalance } = useWallet();
-  const { user } = useUser();
   useEffect(() => {
     refreshBalance();
   });
