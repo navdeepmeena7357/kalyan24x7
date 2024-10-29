@@ -33,7 +33,6 @@ const AddFundPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [upiLinks, setUpiLinks] = useState<Upilinks>();
-  const [showUpiOptions, setShowUpiOptions] = useState(false);
 
   const handleOpenModal = (url: string) => {
     setModalUrl(url);
@@ -127,16 +126,6 @@ const AddFundPage = () => {
             >
               {loading ? 'Please Wait...' : 'Add Cash'}
             </button>
-            {showUpiOptions ? (
-              <button
-                onClick={() => handleOpenModal(modalUrl)}
-                className=" bg-blue-500 text-white font-medium py-2 px-4 rounded shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
-              >
-                Show QR
-              </button>
-            ) : (
-              <div></div>
-            )}
           </div>
         </Card>
       </div>
