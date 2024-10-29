@@ -9,7 +9,6 @@ import { IoMdClipboard, IoMdHome } from 'react-icons/io';
 import { FaClockRotateLeft } from 'react-icons/fa6';
 import { LuIndianRupee } from 'react-icons/lu';
 import { BiChart, BiInfoCircle } from 'react-icons/bi';
-import { useAppData } from '@/context/AppDataContext';
 import { useAuth } from '@/context/AuthContext';
 
 interface DrawerProps {
@@ -21,24 +20,6 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
   const { user, logoutUser } = useUser();
   const router = useRouter();
   const { logout } = useAuth();
-  const appData = useAppData();
-
-  const shareApplication = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'I found trusted app Kalyan 777',
-          text: 'I found this great matka app that you should try out.',
-          url: appData.contactDetails?.app_link,
-        });
-        console.log('Share successful!');
-      } catch (error) {
-        console.error('Error sharing:', error);
-      }
-    } else {
-      alert('Download app : ' + appData.contactDetails?.app_link);
-    }
-  };
 
   const handleLogout = async () => {
     try {
@@ -78,16 +59,6 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
 
         <div className="w-full bg-white h-full text-black">
           <ul className="space-y-4 text-gray-600">
-            <li className="border-b p-6 border-gray-300 pb-2 flex items-center space-x-3">
-              <IoMdHome className="text-gray-700 h-6 w-6" />
-              <a
-                href="#"
-                className="text-[16px] font-semibold hover:text-orange-600"
-              >
-                Home
-              </a>
-            </li>
-
             {user?.isVerified ? (
               <li className="border-b pl-6 pr-6 border-gray-300 pb-2 flex items-center space-x-3">
                 <IoMdClipboard className="text-gray-700 h-6 w-6" />
@@ -173,18 +144,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
                 Change Password
               </a>
             </li>
-            <li
-              className="border-b border-gray-300 pb-2 pl-6 pr-6 flex items-center space-x-3"
-              onClick={() => shareApplication()}
-            >
-              <FaShareAlt className="text-gray-500 h-5 w-5" />
-              <a
-                href="#"
-                className="text-[16px] font-semibold hover:text-orange-600"
-              >
-                Share App
-              </a>
-            </li>
+
             <div className="text-center bg-red-50 p-2 items-center justify-items-center">
               <li
                 onClick={handleLogout}
