@@ -12,6 +12,13 @@ import { createOrder } from '@/app/services/api';
 import { usePayment } from '@/context/PaymentContext';
 import { generateTxnId } from '@/utils/basic';
 import LoadingModal from '@/components/LoadingModal';
+import { DiVim } from 'react-icons/di';
+interface Upilinks {
+  bhim_link?: string;
+  phonepe_link?: string;
+  paytm_link?: string;
+  gpay_link?: string;
+}
 
 const AddFundPage = () => {
   const { user } = useUser();
@@ -24,6 +31,8 @@ const AddFundPage = () => {
   const [amount, setAmount] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [upiLinks, setUpiLinks] = useState<Upilinks>();
+  const [showUpiOptions, setShowUpiOptions] = useState(false);
 
   const handleOpenModal = (url: string) => {
     setModalUrl(url);
@@ -67,7 +76,9 @@ const AddFundPage = () => {
         console.log('Something went wrong', response);
         return;
       }
-      handleOpenModal(response.data.payment_url);
+      setUpiLinks(response.data.upi_intent);
+      setModalUrl(response.data.payment_url);
+      toggleUpiOptions();
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -77,6 +88,14 @@ const AddFundPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleUpiPayment = (upiUrl: string) => {
+    window.open(upiUrl, '_blank');
+  };
+
+  const toggleUpiOptions = () => {
+    setShowUpiOptions(!showUpiOptions);
   };
 
   return (
@@ -102,7 +121,7 @@ const AddFundPage = () => {
               className="flex-1 outline-none bg-transparent placeholder-gray-400"
             />
           </div>
-          <div className="flex flex-col items-center mt-2">
+          <div className="flex items-center space-x-2 text-center justify-center mt-4">
             <button
               onClick={handleCreateOrder}
               disabled={loading}
@@ -110,9 +129,59 @@ const AddFundPage = () => {
             >
               {loading ? 'Please Wait...' : 'Add Cash'}
             </button>
+            {showUpiOptions ? (
+              <button
+                onClick={() => handleOpenModal(modalUrl)}
+                className=" bg-blue-500 text-white font-medium py-2 px-4 rounded shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+              >
+                Show QR
+              </button>
+            ) : (
+              <div></div>
+            )}
           </div>
         </Card>
       </div>
+
+      {upiLinks && (
+        <div className="mt-4 p-2">
+          <h2 className="font-semibold">Choose Your Payment Method:</h2>
+          <div className="flex flex-col space-y-2 mt-2">
+            {upiLinks.bhim_link && (
+              <button
+                onClick={() => handleUpiPayment(upiLinks.bhim_link || '')}
+                className="bg-green-500 text-white py-2 px-4 rounded"
+              >
+                Pay with BHIM
+              </button>
+            )}
+            {upiLinks.phonepe_link && (
+              <button
+                onClick={() => handleUpiPayment(upiLinks.phonepe_link || '')}
+                className="bg-blue-500 text-white py-2 px-4 rounded"
+              >
+                Pay with PhonePe
+              </button>
+            )}
+            {upiLinks.paytm_link && (
+              <button
+                onClick={() => handleUpiPayment(upiLinks.paytm_link || '')}
+                className="bg-red-500 text-white py-2 px-4 rounded"
+              >
+                Pay with Paytm
+              </button>
+            )}
+            {upiLinks.gpay_link && (
+              <button
+                onClick={() => handleUpiPayment(upiLinks.gpay_link || '')}
+                className="bg-yellow-500 text-white py-2 px-4 rounded"
+              >
+                Pay with Google Pay
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-white bg-opacity-50">

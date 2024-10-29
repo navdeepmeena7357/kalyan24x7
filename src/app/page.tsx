@@ -95,15 +95,17 @@ const Navbar = () => {
 
 const BottomNavBar = () => {
   const router = useRouter();
-  const appData = useAppData();
+  const { contactDetails } = useAppData();
   const { user } = useUser();
   const handleWhatsAppClick = () => {
-    const phoneNumber = appData.contactDetails?.whatsapp_numebr;
-    const message = `Hi Admin. ( ${user?.name ?? ''} : ${user?.username ?? ''} )`;
-    window.open(
-      `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
-      '_blank'
-    );
+    const rawPhoneNumber = contactDetails?.whatsapp_numebr;
+    const phoneNumber = rawPhoneNumber ? rawPhoneNumber.replace(/\D/g, '') : '';
+    if (!phoneNumber) {
+      alert('Phone number is not available.');
+      return;
+    }
+    const whatsappUrl = `whatsapp://send?phone=${phoneNumber}`;
+    window.location.href = whatsappUrl;
   };
 
   const handleNavigation = (route: string) => {

@@ -1,7 +1,7 @@
 'use client';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { BASE_URL } from '@/app/services/api';
-import jwt from 'jsonwebtoken';
+import { getTokenFromLocalStorage, getUserIdFromToken } from '@/utils/basic';
 
 interface WalletData {
   balance: number;
@@ -17,26 +17,20 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const fetchBalance = async () => {
     try {
-      const token = localStorage.getItem('token');
-      if (!token) throw new Error('Token not found');
-      const decodedToken = jwt.decode(token) ?? 'null';
-      const userId = decodedToken.sub;
-
       const response = await fetch(`${BASE_URL}/user_points`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
         },
-        body: JSON.stringify({ user_id: userId }),
+        body: JSON.stringify({ user_id: getUserIdFromToken() }),
       });
 
       if (!response.ok) throw new Error('Failed to fetch balance');
       const data = await response.json();
-      console.log('balacnce ' + data.balance);
       setBalance(data.balance);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       setBalance(0);
     }
   };
