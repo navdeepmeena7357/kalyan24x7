@@ -12,7 +12,6 @@ import { createOrder } from '@/app/services/api';
 import { usePayment } from '@/context/PaymentContext';
 import { generateTxnId } from '@/utils/basic';
 import LoadingModal from '@/components/LoadingModal';
-import { DiVim } from 'react-icons/di';
 interface Upilinks {
   bhim_link?: string;
   phonepe_link?: string;
@@ -63,9 +62,8 @@ const AddFundPage = () => {
         amount: amount,
         p_info: 'Add Fund',
         customer_name: user?.name || 'CustName',
-        customer_email:
-          user?.username + '@kalyan777.com' || 'Email of customer',
-        customer_mobile: user?.username || 'Mobile of customer',
+        customer_email: user?.username + '@kalyan777.com' || 'CustEmail',
+        customer_mobile: user?.username || 'CustMobile',
         redirect_url: `${window.location.origin}/features/funds/order_complete`,
         udf1: user?.id.toString(),
         udf2: '0',
