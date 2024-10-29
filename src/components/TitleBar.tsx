@@ -2,6 +2,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { useRouter } from 'next/navigation';
 import { useWallet } from '@/context/WalletContext';
 import { FaWallet } from 'react-icons/fa';
+import { useUser } from '@/context/UserContext';
 
 interface TitleBarProps {
   title: string;
@@ -11,6 +12,7 @@ interface TitleBarProps {
 const TitleBar: React.FC<TitleBarProps> = ({ title, onBack }) => {
   const wallet = useWallet();
   const router = useRouter();
+  const { user } = useUser();
   const defaultBack = () => {
     router.back();
   };
@@ -24,10 +26,15 @@ const TitleBar: React.FC<TitleBarProps> = ({ title, onBack }) => {
         />
         <h1 className="text-lg uppercase p-2">{title}</h1>
       </div>
-      <div className="flex items-center mr-2 gap-1">
-        <FaWallet />
-        <h1>{wallet.balance ?? '...'}</h1>
-      </div>
+
+      {user?.isVerified ? (
+        <div className="flex items-center mr-2 gap-1">
+          <FaWallet />
+          <h1>{wallet.balance ?? '...'}</h1>
+        </div>
+      ) : (
+        <div></div>
+      )}
     </nav>
   );
 };
