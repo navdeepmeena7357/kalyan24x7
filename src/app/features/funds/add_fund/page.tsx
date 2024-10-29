@@ -12,6 +12,7 @@ import { createOrder } from '@/app/services/api';
 import { usePayment } from '@/context/PaymentContext';
 import { generateTxnId } from '@/utils/basic';
 import LoadingModal from '@/components/LoadingModal';
+import { FaCheckCircle } from 'react-icons/fa';
 interface Upilinks {
   bhim_link?: string;
   phonepe_link?: string;
@@ -26,6 +27,7 @@ const AddFundPage = () => {
   const points = useWallet();
 
   const [isModalOpen, setModalOpen] = useState(false);
+  const [paymentOptionsModalOpen, setPaymentOptionsModalOpen] = useState(false);
   const [modalUrl, setModalUrl] = useState('');
   const [amount, setAmount] = useState<string>('');
   const [loading, setLoading] = useState(false);
@@ -36,9 +38,11 @@ const AddFundPage = () => {
   const handleOpenModal = (url: string) => {
     setModalUrl(url);
     setModalOpen(true);
+    setPaymentOptionsModalOpen(false);
   };
 
   const handleCloseModal = () => {
+    setPaymentOptionsModalOpen(false);
     setModalOpen(false);
     setAmount('');
     router.replace('/');
@@ -76,7 +80,7 @@ const AddFundPage = () => {
       }
       setUpiLinks(response.data.upi_intent);
       setModalUrl(response.data.payment_url);
-      toggleUpiOptions();
+      setPaymentOptionsModalOpen(true);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -90,10 +94,6 @@ const AddFundPage = () => {
 
   const handleUpiPayment = (upiUrl: string) => {
     window.open(upiUrl, '_blank');
-  };
-
-  const toggleUpiOptions = () => {
-    setShowUpiOptions(!showUpiOptions);
   };
 
   return (
@@ -140,43 +140,59 @@ const AddFundPage = () => {
           </div>
         </Card>
       </div>
-
-      {upiLinks && (
-        <div className="mt-4 p-2">
-          <h2 className="font-semibold">Choose Your Payment Method:</h2>
-          <div className="flex flex-col space-y-2 mt-2">
-            {upiLinks.bhim_link && (
+      {paymentOptionsModalOpen && upiLinks && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+          <div className="bg-white rounded shadow-lg w-full max-w-lg p-4">
+            <h2 className="font-semibold mb-4">Choose Your Payment Method:</h2>
+            <div className="flex flex-col space-y-2">
               <button
-                onClick={() => handleUpiPayment(upiLinks.bhim_link || '')}
-                className="bg-green-500 text-white py-2 px-4 rounded"
+                onClick={() => handleOpenModal(modalUrl)}
+                className="bg-blue-500 text-white py-2 px-4 rounded shadow-md hover:bg-orange-600"
               >
-                Pay with BHIM
+                SHOW QR CODE
               </button>
-            )}
-            {upiLinks.phonepe_link && (
+              {upiLinks.bhim_link && (
+                <button
+                  onClick={() => handleUpiPayment(upiLinks.bhim_link || '')}
+                  className="bg-orange-500 text-white py-2 px-4 rounded shadow-md hover:bg-orange-600"
+                >
+                  Pay with BHIM
+                </button>
+              )}
+              {upiLinks.phonepe_link && (
+                <button
+                  onClick={() => handleUpiPayment(upiLinks.phonepe_link || '')}
+                  className="bg-orange-500 text-white py-2 px-4 rounded shadow-md hover:bg-orange-600"
+                >
+                  Pay with PhonePe
+                </button>
+              )}
+              {upiLinks.paytm_link && (
+                <button
+                  onClick={() => handleUpiPayment(upiLinks.paytm_link || '')}
+                  className="bg-orange-500 text-white py-2 px-4 rounded shadow-md hover:bg-orange-600"
+                >
+                  Pay with Paytm
+                </button>
+              )}
+              {upiLinks.gpay_link && (
+                <button
+                  onClick={() => handleUpiPayment(upiLinks.gpay_link || '')}
+                  className="bg-orange-500 text-white py-2 px-4 rounded shadow-md hover:bg-orange-600"
+                >
+                  Pay with Google Pay
+                </button>
+              )}
+            </div>
+            <div className="flex justify-center items-center">
               <button
-                onClick={() => handleUpiPayment(upiLinks.phonepe_link || '')}
-                className="bg-blue-500 text-white py-2 px-4 rounded"
+                onClick={() => handleCloseModal()}
+                className="mt-4 bg-black flex items-center gap-2 text-white py-2 px-4 rounded shadow-md hover:bg-gray-400 focus:outline-none"
               >
-                Pay with PhonePe
+                <FaCheckCircle />
+                Payment Done ?
               </button>
-            )}
-            {upiLinks.paytm_link && (
-              <button
-                onClick={() => handleUpiPayment(upiLinks.paytm_link || '')}
-                className="bg-red-500 text-white py-2 px-4 rounded"
-              >
-                Pay with Paytm
-              </button>
-            )}
-            {upiLinks.gpay_link && (
-              <button
-                onClick={() => handleUpiPayment(upiLinks.gpay_link || '')}
-                className="bg-yellow-500 text-white py-2 px-4 rounded"
-              >
-                Pay with Google Pay
-              </button>
-            )}
+            </div>
           </div>
         </div>
       )}
