@@ -145,31 +145,7 @@ const AddFundPage = () => {
                   onClick={() => handleUpiPayment(upiLinks.bhim_link || '')}
                   className="bg-orange-500 text-white py-2 px-4 rounded shadow-md hover:bg-orange-600"
                 >
-                  Pay with BHIM
-                </button>
-              )}
-              {upiLinks.phonepe_link && (
-                <button
-                  onClick={() => handleUpiPayment(upiLinks.phonepe_link || '')}
-                  className="bg-orange-500 text-white py-2 px-4 rounded shadow-md hover:bg-orange-600"
-                >
-                  Pay with PhonePe
-                </button>
-              )}
-              {upiLinks.paytm_link && (
-                <button
-                  onClick={() => handleUpiPayment(upiLinks.paytm_link || '')}
-                  className="bg-orange-500 text-white py-2 px-4 rounded shadow-md hover:bg-orange-600"
-                >
-                  Pay with Paytm
-                </button>
-              )}
-              {upiLinks.gpay_link && (
-                <button
-                  onClick={() => handleUpiPayment(upiLinks.gpay_link || '')}
-                  className="bg-orange-500 text-white py-2 px-4 rounded shadow-md hover:bg-orange-600"
-                >
-                  Pay with Google Pay
+                  Pay with UPI
                 </button>
               )}
             </div>
