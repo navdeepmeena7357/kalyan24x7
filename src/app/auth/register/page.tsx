@@ -10,6 +10,9 @@ import { BASE_URL } from '@/app/services/api';
 import { showErrorToast } from '@/utils/toast';
 import { Toaster } from 'react-hot-toast';
 import LoadingModal from '@/components/LoadingModal';
+import { FaLock, FaPhone } from 'react-icons/fa';
+import { FaPerson } from 'react-icons/fa6';
+import { MdAccountBox, MdAccountCircle, MdVerifiedUser } from 'react-icons/md';
 
 export interface User {
   id: number;
@@ -155,11 +158,14 @@ function RegisterPage() {
       <form onSubmit={handleSubmit}>
         <div className="grid gap-6 md:grid-cols-2 mt-6"></div>
 
-        <div className="mb-4">
+        <div className="mb-4 relative">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-orange-500 rounded-full p-2">
+            <MdAccountCircle className="text-white" />
+          </div>
           <input
             type="text"
             id="name"
-            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:border-orange-500 block w-full p-2.5"
+            className="border-2 border-gray-300 text-black  rounded-full focus:outline-none focus:ring-0 focus:border-orange-500 block w-full pl-12 p-3.5"
             placeholder="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -167,25 +173,30 @@ function RegisterPage() {
           />
         </div>
 
-        <div className="mb-4">
+        <div className="mb-4 mt-2 relative">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-orange-500 rounded-full p-2">
+            <FaPhone className="text-white" />
+          </div>
           <input
             type="tel"
-            id="mobile_number"
-            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:border-orange-500 block w-full p-2.5"
-            placeholder="Enter Mobile Number"
             value={mobileNumber}
+            maxLength={10}
+            className="border-2 border-gray-300 text-black  rounded-full focus:outline-none focus:ring-0 focus:border-orange-500 block w-full pl-12 p-3.5"
+            placeholder="Enter Mobile Number"
             onChange={(e) => setMobileNumber(e.target.value)}
             required
           />
         </div>
 
-        <div className="mb-4">
+        <div className="mb-4 relative">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-orange-500 rounded-full p-2">
+            <FaLock className="text-white" />
+          </div>
           <input
             type="password"
-            id="password"
-            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5"
-            placeholder="•••••••••"
             value={password}
+            className="border-2 border-gray-300 text-black  rounded-full focus:outline-none focus:ring-0 focus:border-orange-500 block w-full pl-12 p-3.5"
+            placeholder="•••••••••"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
@@ -193,22 +204,24 @@ function RegisterPage() {
 
         {error && <p className="text-red-500 mb-2">{error}</p>}
 
-        <button
-          type="submit"
-          className={`text-white bg-orange-600 hover:bg-orange-500 items-center focus:ring-0 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-3 uppercase text-center ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-          disabled={loading}
-        >
-          {loading ? 'Submitting...' : 'Submit'}
-        </button>
+        <div className="mr-12 ml-12">
+          <button
+            type="submit"
+            className={`text-white font-semibold bg-orange-600 hover:bg-orange-500 items-center focus:ring-0 focus:outline-none rounded-full text-sm w-full px-5 py-3 uppercase text-center ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={loading}
+          >
+            {loading ? 'Submitting...' : 'Submit'}
+          </button>
+        </div>
       </form>
 
       <div className="w-full flex justify-center items-center text-center mt-2">
         <ContactOptions />
       </div>
 
-      <button onClick={handleNavigate} className="w-full">
+      <button onClick={handleNavigate} className="w-full ">
         <div className="w-full flex justify-center items-center text-center mt-2">
-          <div className="bg-green-500 w-1/2 text-center p-1 items-center rounded-sm text-white mt-2">
+          <div className="bg-green-500 w-64 p-2 rounded-full text-center items-center text-white mt-2">
             Already Registered? Login
           </div>
         </div>
