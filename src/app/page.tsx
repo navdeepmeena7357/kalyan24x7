@@ -197,7 +197,7 @@ const GameList = () => {
   return (
     <div
       className={`${
-        !user!.isVerified ? 'mt-28' : 'mt-48'
+        !user?.isVerified ? 'mt-24' : 'mt-48'
       } mb-16 overflow-y-auto h-screen bg-white`}
     >
       <LoadingModal isOpen={isLoading} />
