@@ -11,8 +11,7 @@ import { showErrorToast } from '@/utils/toast';
 import { Toaster } from 'react-hot-toast';
 import LoadingModal from '@/components/LoadingModal';
 import { FaLock, FaPhone } from 'react-icons/fa';
-import { FaPerson } from 'react-icons/fa6';
-import { MdAccountBox, MdAccountCircle, MdVerifiedUser } from 'react-icons/md';
+import { MdAccountCircle } from 'react-icons/md';
 
 export interface User {
   id: number;
