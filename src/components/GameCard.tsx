@@ -130,22 +130,27 @@ const GameCard: React.FC<MarketProps> = ({ market }) => {
           </div>
         </div>
 
-        <div className="flex flex-col items-center">
-          <h1 className={`text-[13px] font-medium ${statusClass}`}>
-            {marketStatusMessage}
-          </h1>
-          <div
-            className={`flex items-center mt-2 justify-center h-12 w-12 ${buttonClass} rounded-full shadow-md`}
-          >
-            <p>
-              {market.is_active ? (
-                <FaPlay className="text-white text-xl" />
-              ) : (
-                <CgClose className="text-white text-xl" />
-              )}
-            </p>
+        {user?.isVerified ? (
+          <div className="flex flex-col items-center">
+            <h1 className={`text-[13px] font-medium ${statusClass}`}>
+              {marketStatusMessage}
+            </h1>
+
+            <div
+              className={`flex items-center mt-2 justify-center h-12 w-12 ${buttonClass} rounded-full shadow-md`}
+            >
+              <p>
+                {market.is_active ? (
+                  <FaPlay className="text-white text-xl" />
+                ) : (
+                  <CgClose className="text-white text-xl" />
+                )}
+              </p>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </>
   );

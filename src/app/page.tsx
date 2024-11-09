@@ -86,7 +86,13 @@ const Navbar = () => {
           <div></div>
         )}
 
-        {user?.isVerified ? <WalletOptions /> : <div></div>}
+        {user?.isVerified ? (
+          <div>
+            <WalletOptions />
+          </div>
+        ) : (
+          <div></div>
+        )}
         <ContactOptions />
       </div>
     </nav>
@@ -173,6 +179,7 @@ const BottomNavBar = () => {
 
 const GameList = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const { user } = useUser();
   const [marketData, setMarketData] = useState<MarketData[]>([]);
 
   useEffect(() => {
@@ -188,7 +195,11 @@ const GameList = () => {
   }, []);
 
   return (
-    <div className="mt-48 mb-16 overflow-y-auto h-screen bg-white">
+    <div
+      className={`${
+        !user!.isVerified ? 'mt-28' : 'mt-48'
+      } mb-16 overflow-y-auto h-screen bg-white`}
+    >
       <LoadingModal isOpen={isLoading} />
       {marketData.map((market) => (
         <GameCard key={market.id} market={market} />
