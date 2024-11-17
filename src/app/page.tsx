@@ -62,7 +62,7 @@ const Navbar = () => {
             src="/images/png/Logo.png"
             width={164}
             height={164}
-            alt="Kalyan 777 Logo"
+            alt="Kalyan 24x7 Logo"
           ></Image>
 
           <Drawer isOpen={isOpen} onClose={toggleDrawer} />
@@ -83,7 +83,7 @@ const Navbar = () => {
             text={appData.contactDetails?.banner_message.toString() ?? ' '}
           />
         ) : (
-          <div></div>
+          <Marquee text={'We provide fast matka results'} />
         )}
 
         {user?.isVerified ? (

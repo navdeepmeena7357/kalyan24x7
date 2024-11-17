@@ -25,7 +25,7 @@ interface LogoutResponse {
 
 // API URL (make sure to configure your .env for this)
 const BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'https://blacksattamatka.in/api';
+  process.env.NEXT_PUBLIC_API_URL || 'https://kalyanoffice.in/api/';
 
 // Login function using fetch with mobile number and password
 export const login = async (
