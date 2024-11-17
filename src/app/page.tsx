@@ -7,7 +7,6 @@ import { Toaster } from 'react-hot-toast';
 import GameCard from '@/components/GameCard';
 import Image from 'next/image';
 import Drawer from '@/components/Drawer';
-import { HiOutlineMenuAlt1 } from 'react-icons/hi';
 import WalletOptions from '@/components/WalletOptions';
 import ContactOptions from '@/components/ContactOptions';
 import Marquee from '@/components/Marquee';
@@ -21,6 +20,7 @@ import { IoMdHome } from 'react-icons/io';
 import { useRouter } from 'next/navigation';
 import { MdWallet } from 'react-icons/md';
 import { useUser } from '@/context/UserContext';
+import { BiMenuAltLeft } from 'react-icons/bi';
 
 export interface MarketData {
   id: number;
@@ -52,16 +52,16 @@ const Navbar = () => {
     <nav className="text-white bg-white items-center fixed top-0 left-0 right-0 z-10 p-3">
       <div className="flex justify-between items-center">
         <div className="flex">
-          <HiOutlineMenuAlt1
+          <BiMenuAltLeft
             onClick={toggleDrawer}
-            className="h-9 w-9 text-orange-500 shadow-sm shadow-zinc-300 rounded"
+            className="h-9 w-9 text-blue-500 shadow-sm shadow-zinc-300 rounded"
           />
 
           <Image
             className="ml-2"
             src="/images/png/Logo.png"
-            width={154}
-            height={154}
+            width={164}
+            height={164}
             alt="Kalyan 777 Logo"
           ></Image>
 
@@ -126,7 +126,7 @@ const BottomNavBar = () => {
             onClick={() => handleNavigation('bids')}
             className="flex gap-2 flex-col items-center justify-items-center"
           >
-            <FaReceipt className="h-5 w-5" />
+            <FaReceipt className="h-5 text-blue-600 w-5" />
             <h1 className="text-sm font-medium">My Bids</h1>
           </div>
         ) : (
@@ -138,15 +138,15 @@ const BottomNavBar = () => {
             onClick={() => handleNavigation('game_rate')}
             className="flex gap-2 flex-col items-center justify-items-center"
           >
-            <FaRupeeSign className="h-5 w-5" />
+            <FaRupeeSign className="h-5 w-5 text-blue-600" />
             <h1 className="text-sm font-medium">Game Rate</h1>
           </div>
         ) : (
           <div></div>
         )}
 
-        <div className="flex gap-2 rounded-full bg-orange-500 flex-col items-center justify-items-center">
-          <IoMdHome className="h-6 w-6 m-3 text-white" />
+        <div className="flex gap-2 rounded-full bg-blue-500 flex-col items-center justify-items-center">
+          <IoMdHome className="h-6 w-6 m-3  text-white" />
         </div>
 
         {user?.isVerified ? (
@@ -154,7 +154,7 @@ const BottomNavBar = () => {
             onClick={() => handleNavigation('funds')}
             className="flex gap-2 flex-col items-center justify-items-center"
           >
-            <RiBankFill className="h-5 w-5" />
+            <RiBankFill className="h-5 text-blue-600 w-5" />
             <h1 className="text-sm font-medium">Funds</h1>
           </div>
         ) : (
@@ -166,7 +166,7 @@ const BottomNavBar = () => {
             onClick={handleWhatsAppClick}
             className="flex gap-2 flex-col items-center justify-items-center"
           >
-            <IoChatbubbleEllipsesOutline className="h-5 w-5" />
+            <IoChatbubbleEllipsesOutline className="h-5 text-blue-600 w-5" />
             <h1 className="text-sm font-medium">Support</h1>
           </div>
         ) : (

@@ -18,8 +18,8 @@ const RoundedInput: React.FC<RoundedInputProps> = ({
   type = 'text',
 }) => {
   return (
-    <div className="flex mt-2 items-center border bg-white border-gray-300 rounded-full p-2 focus-within:border-orange-500">
-      <div className="h-10 w-10 text-white p-1 mr-2 bg-orange-500 rounded-full flex items-center justify-center">
+    <div className="flex mt-2 items-center border bg-white border-gray-300 rounded-md p-2 focus-within:border-blue-500">
+      <div className="h-10 w-10 text-white p-1 mr-2 bg-blue-500 rounded-md flex items-center justify-center">
         {icon}
       </div>
       <input

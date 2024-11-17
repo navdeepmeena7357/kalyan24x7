@@ -257,8 +257,8 @@ const AddFundPage = () => {
             <ContactOptions />
           </div>
           <hr className=" h-1 mt-2 bg-black" />
-          <div className="flex mt-2 items-center border-2 border-gray-300 rounded-full p-2 focus-within:border-orange-500">
-            <BiRupee className="h-10 w-10 text-white p-1 mr-2 bg-orange-500 rounded-full" />
+          <div className="flex mt-2 items-center border-2 border-gray-300 rounded-md p-2 focus-within:border-blue-500">
+            <BiRupee className="h-10 w-10 text-white p-1 mr-2 bg-blue-500 rounded-md" />
             <input
               value={amount}
               onChange={handleAmount}
@@ -274,7 +274,7 @@ const AddFundPage = () => {
               hidden={!bankDetails}
               disabled={isDisabled || points.balance <= 0}
               onClick={() => handleWithdraw()}
-              className="bg-orange-500 text-white font-medium py-2 px-4 rounded shadow-md hover:bg-orange-600 disabled:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-opacity-50"
+              className="bg-blue-500 uppercase text-white font-medium py-2 px-4 rounded shadow-md hover:bg-blue-600 disabled:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
             >
               Withdraw Cash
             </button>
@@ -282,14 +282,14 @@ const AddFundPage = () => {
           {modalVisible && bankDetails && (
             <Modal onClose={() => setModalVisible(false)}>
               <div className="bg-white rounded-lg shadow-lg p-6 max-w-md mx-auto">
-                <h2 className="text-xl font-semibold text-center text-orange-600 p-2">
+                <h2 className="text-xl font-semibold text-center text-blue-600 p-2">
                   Select Withdrawal Mode
                 </h2>
 
                 <ul className="mt-4 space-y-2">
                   {withdrawalMethods.map((method) => (
                     <li key={method.value}>
-                      <label className="flex items-center p-2 bg-orange-100 rounded-md hover:bg-orange-200 transition">
+                      <label className="flex items-center p-2 bg-blue-100 rounded-md hover:bg-blue-200 transition">
                         <input
                           type="radio"
                           name="withdrawalMethod"
@@ -305,7 +305,7 @@ const AddFundPage = () => {
                 <div className="modal-actions mt-4">
                   <button
                     onClick={() => sendWithdrawRequest()}
-                    className="w-full bg-orange-500 text-white font-medium py-2 rounded hover:bg-orange-600 transition focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-opacity-50"
+                    className="w-full bg-blue-500 text-white font-medium py-2 rounded hover:bg-blue-600 transition focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
                   >
                     Confirm Withdrawal
                   </button>
@@ -320,7 +320,7 @@ const AddFundPage = () => {
                 onClick={() => {
                   router.replace('/features/funds/bank_details');
                 }}
-                className="border border-orange-600 text-orange-600 p-2 rounded-md hover:bg-orange-50 transition duration-300"
+                className="border border-blue-600 text-blue-600 p-2 rounded-md hover:bg-blue-50 transition duration-300"
               >
                 Add Bank Details
               </button>

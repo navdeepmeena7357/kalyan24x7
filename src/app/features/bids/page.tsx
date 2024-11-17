@@ -179,7 +179,10 @@ const BidsPage = () => {
                     {bid.market_name} - {bid.market_session.toUpperCase()}
                   </div>
 
-                  <div className="inline-block bg-orange-50 p-2 shadow-sm shadow-gray-200 rounded-md">
+                  <div
+                    className="inline-block bg-blue
+-50 p-2 shadow-sm shadow-gray-200 rounded-md"
+                  >
                     <div className="font-medium text-sm">
                       {bid.bet_type.toUpperCase().replace('_', ' ')} -{' '}
                       {bid.bet_digit}
@@ -226,7 +229,8 @@ const BidsPage = () => {
               <h1>Market</h1>
               <Select
                 onChange={handleMarketIdChange}
-                className="focus:ring-transparent mt-1 focus:outline-none focus:border-orange-500"
+                className="focus:ring-transparent mt-1 focus:outline-none focus:border-blue
+-500"
                 options={marketNameOptions}
               />
             </div>
@@ -235,7 +239,8 @@ const BidsPage = () => {
               <h1>Bid Type</h1>
               <Select
                 onChange={handleBidTypeChange}
-                className="focus:ring-transparent mt-1 focus:outline-none focus:border-orange-500"
+                className="focus:ring-transparent mt-1 focus:outline-none focus:border-blue
+-500"
                 options={bidTypeOptions}
               />
             </div>
@@ -248,14 +253,16 @@ const BidsPage = () => {
                 type="date"
                 value={formatToYYYYMMDD(date)}
                 onChange={handleDateChange}
-                className="focus:ring-transparent mt-1 max-w-[154px] p-2 bg-white rounded-sm shadow shadow-gray-400 focus:outline-none focus:border-orange-500"
+                className="focus:ring-transparent mt-1 max-w-[154px] p-2 bg-white rounded-sm shadow shadow-gray-400 focus:outline-none focus:border-blue
+-500"
               />
             </div>
             <div className="w-full">
               <h1>Session</h1>
               <Select
                 onChange={handleSessionChange}
-                className="focus:ring-transparent mt-1 focus:outline-none focus:border-orange-500"
+                className="focus:ring-transparent mt-1 focus:outline-none focus:border-blue
+-500"
                 options={sessionOptions}
               />
             </div>
@@ -263,7 +270,8 @@ const BidsPage = () => {
 
           <button
             onClick={handleSearchBids}
-            className="w-44 justify-center shadow-sm shadow-gray-300 text-center items-center p-2  ml-4 mr-4 bg-orange-500 rounded-md text-white font-medium"
+            className="w-44 justify-center shadow-sm shadow-gray-300 text-center items-center p-2  ml-4 mr-4 bg-blue
+-500 rounded-md text-white font-medium"
           >
             Search Bids
           </button>

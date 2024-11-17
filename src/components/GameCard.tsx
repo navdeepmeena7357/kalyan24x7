@@ -97,7 +97,7 @@ const GameCard: React.FC<MarketProps> = ({ market }) => {
         onClick={
           (isMarketOpen && isMarketClose) || isMarketClose
             ? () => handleMarketClick()
-            : () => showMarketClosed()
+            : () => (user?.isVerified ? showMarketClosed() : undefined)
         }
       >
         <div>

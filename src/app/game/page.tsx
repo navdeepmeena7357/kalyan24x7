@@ -13,8 +13,6 @@ const GamePage: NextPage = () => {
   const name = searchParams.get('name');
   const openStatus = searchParams.get('open_status');
 
-  console.log(`ID : ${id}, Name :  ${name} , Open Status : ${openStatus}`);
-
   const handleNavigation = (key: string) => {
     router.push(`/game/${key}?id=${id}&name=${name}`);
   };

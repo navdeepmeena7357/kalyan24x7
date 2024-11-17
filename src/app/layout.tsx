@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
+import { Open_Sans } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { AppDataProvider } from '@/context/AppDataContext';
@@ -7,20 +7,11 @@ import { WalletProvider } from '@/context/WalletContext';
 import { UserProvider } from '@/context/UserContext';
 import { PaymentProvider } from '@/context/PaymentContext';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
-});
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
-});
+const font = Open_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Kalyan 777',
-  description: 'Kalyan 777 - Online Matka Play',
+  title: 'Kalyan 24x7',
+  description: 'Kalyan 24x7 - Online Matka Play',
 };
 
 export default function RootLayout({
@@ -36,7 +27,7 @@ export default function RootLayout({
             <PaymentProvider>
               <html lang="en">
                 <body
-                  className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-00`}
+                  className={`${font.className} font-semibold  antialiased bg-gray-50`}
                 >
                   {children}
                 </body>
