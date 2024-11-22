@@ -15,7 +15,7 @@ import { useAppData } from '@/context/AppDataContext';
 import { FaReceipt } from 'react-icons/fa';
 import { FaRupeeSign } from 'react-icons/fa';
 import { RiBankFill } from 'react-icons/ri';
-import { IoChatbubbleEllipsesOutline } from 'react-icons/io5';
+import { IoChatbubbleEllipsesOutline, IoReload } from 'react-icons/io5';
 import { IoMdHome } from 'react-icons/io';
 import { useRouter } from 'next/navigation';
 import { MdWallet } from 'react-icons/md';
@@ -38,11 +38,39 @@ export interface MarketData {
   sunday_status: number;
 }
 
-const Navbar = () => {
+const Navbar: React.FC<{ refreshMarketData: () => void }> = ({
+  refreshMarketData,
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
   const appData = useAppData();
+  const { user, fetchAndSetUser } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const wallet = useWallet();
-  const { user } = useUser();
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      await fetchAndSetUser();
+      setIsLoading(false);
+    })();
+
+    (async () => {
+      setIsLoading(true);
+      refreshMarketData();
+      setIsLoading(false);
+    })();
+  }, []);
+
+  const handleRefresh = async () => {
+    setIsLoading(true);
+    try {
+      await fetchAndSetUser();
+      refreshMarketData();
+    } catch (error) {
+      console.error('Error during refresh:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
@@ -94,6 +122,16 @@ const Navbar = () => {
           <div></div>
         )}
         <ContactOptions />
+
+        <button>
+          <div
+            onClick={handleRefresh}
+            className="text-white flex items-center mt-2 ml-4 bg-blue-700 w-32 gap-2 text-center justify-center rounded-md p-1"
+          >
+            <IoReload /> Refresh
+          </div>
+        </button>
+        <LoadingModal isOpen={isLoading} />
       </div>
     </nav>
   );
@@ -177,27 +215,15 @@ const BottomNavBar = () => {
   );
 };
 
-const GameList = () => {
-  const [isLoading, setIsLoading] = useState(false);
+const GameList: React.FC<{ marketData: MarketData[]; isLoading: boolean }> = ({
+  marketData,
+  isLoading,
+}) => {
   const { user } = useUser();
-  const [marketData, setMarketData] = useState<MarketData[]>([]);
-
-  useEffect(() => {
-    setIsLoading(true);
-    const fetchMarketData = async () => {
-      const response = await fetch(`${BASE_URL}/markets`);
-      const data: MarketData[] = await response.json();
-      setMarketData(data);
-      setIsLoading(false);
-    };
-
-    fetchMarketData();
-  }, []);
-
   return (
     <div
       className={`${
-        !user?.isVerified ? 'mt-24' : 'mt-48'
+        !user?.isVerified ? 'mt-[180px]' : 'mt-[235px]'
       } mb-16 overflow-y-auto h-screen bg-white`}
     >
       <LoadingModal isOpen={isLoading} />
@@ -209,17 +235,34 @@ const GameList = () => {
 };
 
 const Home: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { refreshBalance } = useWallet();
+  const [marketData, setMarketData] = useState<MarketData[]>([]);
+
+  const fetchMarketData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${BASE_URL}/markets`);
+      const data: MarketData[] = await response.json();
+      setMarketData(data);
+    } catch (error) {
+      console.error('Failed to fetch market data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
+    fetchMarketData();
     refreshBalance();
-  });
+  }, [refreshBalance]);
 
   return (
     <Suspense>
       <ProtectedRoute>
         <Toaster position="bottom-center" reverseOrder={false} />
-        <Navbar />
-        <GameList />
+        <Navbar refreshMarketData={fetchMarketData} />
+        <GameList marketData={marketData} isLoading={isLoading} />
         <BottomNavBar />
       </ProtectedRoute>
     </Suspense>
