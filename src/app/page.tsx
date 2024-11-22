@@ -123,14 +123,17 @@ const Navbar: React.FC<{ refreshMarketData: () => void }> = ({
         )}
         <ContactOptions />
 
-        <button>
-          <div
-            onClick={handleRefresh}
-            className="text-white flex items-center mt-2 ml-4 bg-blue-700 w-32 gap-2 text-center justify-center rounded-md p-1"
-          >
-            <IoReload /> Refresh
-          </div>
-        </button>
+        <div className="flex justify-center">
+          <button>
+            <div
+              onClick={handleRefresh}
+              className="text-white flex items-center ml-4 bg-blue-700 w-32 gap-2 text-center justify-center rounded-md p-2"
+            >
+              <IoReload /> Refresh
+            </div>
+          </button>
+        </div>
+
         <LoadingModal isOpen={isLoading} />
       </div>
     </nav>
