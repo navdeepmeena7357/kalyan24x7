@@ -113,7 +113,7 @@ const GameChart = () => {
       <TitleBar title="Game Charts" />
       <SafeArea>
         <div className="">
-          <h2 className="pr-4 pl-4 text-2xl font-semibold text-blue-600">
+          <h2 className="pr-4 pl-4 text-2xl font-semibold text-rose-600">
             Select Market
           </h2>
           <div className="p-4">
@@ -127,7 +127,7 @@ const GameChart = () => {
               id="marketSelect"
               value={marketId}
               onChange={handleMarketChange}
-              className="mt-2 block w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
+              className="mt-2 block w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-rose-300"
             >
               {markets.map((market) => (
                 <option key={market.market_id} value={market.market_id}>

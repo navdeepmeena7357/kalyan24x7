@@ -39,7 +39,7 @@ const Timetable = () => {
         <div className="">
           <table className="min-w-full bg-white rounded-lg shadow-md">
             <thead>
-              <tr className="bg-blue-500 text-white text-sm ">
+              <tr className="bg-rose-500 text-white text-sm ">
                 <th className="py-2 px-2">Market Name</th>
                 <th className="py-2 px-2">Open Time</th>
                 <th className="py-2 px-2">Close Time</th>

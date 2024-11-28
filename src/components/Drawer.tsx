@@ -46,12 +46,12 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex ml-4 items-center gap-1 mt-2">
-          <FaUserCircle className="w-12 h-12 text-blue-600" />
+          <FaUserCircle className="w-12 h-12 text-rose-600" />
           <div>
             <h1 className="pl-4 pr-4 mt-2 text-lg text-black font-bold">
               {user?.name}
             </h1>
-            <h1 className="pl-4 pr-4 text-md text-blue-600 font-bold">
+            <h1 className="pl-4 pr-4 text-md text-rose-600 font-bold">
               {user?.username}
             </h1>
           </div>
@@ -64,7 +64,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
                 <IoMdClipboard className="text-gray-700 h-6 w-6" />
                 <a
                   href={'/features/bids'}
-                  className="text-[16px] font-semibold hover:text-blue-600"
+                  className="text-[16px] font-semibold hover:text-rose-600"
                 >
                   My Bids
                 </a>
@@ -78,7 +78,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
                 <MdWallet className="text-gray-700 h-6 w-6" />
                 <a
                   href={'/features/funds'}
-                  className="text-[16px] font-semibold hover:text-blue-600"
+                  className="text-[16px] font-semibold hover:text-rose-600"
                 >
                   Funds
                 </a>
@@ -92,7 +92,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
                 <LuIndianRupee className="text-gray-500 h-6 w-6" />
                 <a
                   href={'/features/game_rate'}
-                  className="text-[16px] font-semibold hover:text-blue-600"
+                  className="text-[16px] font-semibold hover:text-rose-600"
                 >
                   Game Rate
                 </a>
@@ -105,7 +105,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
               <BiChart className="text-gray-500 h-6 w-6" />
               <a
                 href={'/features/chart'}
-                className="text-[16px] font-semibold hover:text-blue-600"
+                className="text-[16px] font-semibold hover:text-rose-600"
               >
                 Charts
               </a>
@@ -115,7 +115,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
               <FaClockRotateLeft className="text-gray-500 h-5 w-5" />
               <a
                 href={'/features/time-table'}
-                className="text-[16px] font-semibold hover:text-blue-600"
+                className="text-[16px] font-semibold hover:text-rose-600"
               >
                 Time Table
               </a>
@@ -126,7 +126,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
                 <BiInfoCircle className="text-gray-500 h-6 w-6" />
                 <a
                   href={'/features/rules'}
-                  className="text-[16px] font-semibold hover:text-blue-600"
+                  className="text-[16px] font-semibold hover:text-rose-600"
                 >
                   Notice Board/Rules
                 </a>
@@ -139,21 +139,21 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
               <FaKey className="text-gray-500 h-5 w-5" />
               <a
                 href={'/features/password'}
-                className="text-[16px] font-semibold hover:text-blue-600"
+                className="text-[16px] font-semibold hover:text-rose-600"
               >
                 Change Password
               </a>
             </li>
 
-            <div className="text-center bg-blue-50 p-2 items-center justify-items-center">
+            <div className="text-center bg-rose-50 p-2 items-center justify-items-center">
               <li
                 onClick={handleLogout}
                 className=" border-gray-300 text-center justify-center flex items-center space-x-3 cursor-pointer"
               >
-                <FaSignOutAlt className="text-blue-500 h-6 w-6" />
+                <FaSignOutAlt className="text-rose-500 h-6 w-6" />
                 <a
                   href="#"
-                  className="text-[16px] font-semibold hover:text-blue-600"
+                  className="text-[16px] font-semibold hover:text-rose-600"
                 >
                   Logout
                 </a>

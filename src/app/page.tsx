@@ -5,7 +5,6 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { BASE_URL } from './services/api';
 import { Toaster } from 'react-hot-toast';
 import GameCard from '@/components/GameCard';
-import Image from 'next/image';
 import Drawer from '@/components/Drawer';
 import WalletOptions from '@/components/WalletOptions';
 import ContactOptions from '@/components/ContactOptions';
@@ -21,6 +20,7 @@ import { useRouter } from 'next/navigation';
 import { MdWallet } from 'react-icons/md';
 import { useUser } from '@/context/UserContext';
 import { BiMenuAltLeft } from 'react-icons/bi';
+import Image from 'next/image';
 
 export interface MarketData {
   id: number;
@@ -37,6 +37,18 @@ export interface MarketData {
   saturday_status: number;
   sunday_status: number;
 }
+
+const Banner = () => (
+  <div style={{ position: 'relative', width: '100%', height: 'auto' }}>
+    <Image
+      src="/images/png/banner.png"
+      alt="Banner"
+      layout="responsive" // Ensures it scales responsively
+      width={123} // These values are ignored for layout="responsive"
+      height={1} // but are needed for aspect ratio
+    />
+  </div>
+);
 
 const Navbar: React.FC<{ refreshMarketData: () => void }> = ({
   refreshMarketData,
@@ -77,27 +89,23 @@ const Navbar: React.FC<{ refreshMarketData: () => void }> = ({
   };
 
   return (
-    <nav className="text-white bg-white items-center fixed top-0 left-0 right-0 z-10 p-3">
-      <div className="flex justify-between items-center">
-        <div className="flex">
+    <nav className="text-white bg-white items-center fixed top-0 left-0 right-0 z-10 ">
+      <div className="flex justify-between items-center bg-red-500 p-3">
+        <div className="flex items-center gap-2">
           <BiMenuAltLeft
             onClick={toggleDrawer}
-            className="h-9 w-9 text-blue-500 shadow-sm shadow-zinc-300 rounded"
+            className="h-9 w-9 text-white-500 shadow-sm shadow-white rounded"
           />
 
-          <Image
-            className="ml-2"
-            src="/images/png/Logo.png"
-            width={164}
-            height={164}
-            alt="Kalyan 24x7 Logo"
-          ></Image>
+          <div className="text-xl justify-center text-center items-center">
+            MATKA <span className="underline underline-offset-4">999</span>
+          </div>
 
           <Drawer isOpen={isOpen} onClose={toggleDrawer} />
         </div>
 
         {user?.isVerified ? (
-          <div className="text-black flex items-center space-x-1">
+          <div className="text-white flex items-center space-x-1">
             <MdWallet className="w-7 h-7" />
             <h1>{wallet.balance}</h1>
           </div>
@@ -105,14 +113,8 @@ const Navbar: React.FC<{ refreshMarketData: () => void }> = ({
           <div></div>
         )}
       </div>
-      <div className="text-black mt-1">
-        {user?.isVerified ? (
-          <Marquee
-            text={appData.contactDetails?.banner_message.toString() ?? ' '}
-          />
-        ) : (
-          <Marquee text={'We provide fast matka results'} />
-        )}
+      <div className="text-black">
+        <Banner />
 
         {user?.isVerified ? (
           <div>
@@ -121,17 +123,20 @@ const Navbar: React.FC<{ refreshMarketData: () => void }> = ({
         ) : (
           <div></div>
         )}
-        <ContactOptions />
 
-        <div className="flex justify-center">
-          <button>
-            <div
-              onClick={handleRefresh}
-              className="text-white flex items-center ml-4 bg-blue-700 w-32 gap-2 text-center justify-center rounded-md p-2"
-            >
-              <IoReload /> Refresh
-            </div>
-          </button>
+        <div className="flex items-center justify-between">
+          <ContactOptions />
+
+          <div className="flex justify-end mr-2 mt-2">
+            <button>
+              <div
+                onClick={handleRefresh}
+                className="text-white flex items-center ml-4 mb-2 bg-gray-700 w-40 gap-2 text-center justify-center rounded-md p-2"
+              >
+                <IoReload /> Refresh
+              </div>
+            </button>
+          </div>
         </div>
 
         <LoadingModal isOpen={isLoading} />
@@ -167,7 +172,7 @@ const BottomNavBar = () => {
             onClick={() => handleNavigation('bids')}
             className="flex gap-2 flex-col items-center justify-items-center"
           >
-            <FaReceipt className="h-5 text-blue-600 w-5" />
+            <FaReceipt className="h-5 text-gray-600 w-5" />
             <h1 className="text-sm font-medium">My Bids</h1>
           </div>
         ) : (
@@ -179,14 +184,14 @@ const BottomNavBar = () => {
             onClick={() => handleNavigation('game_rate')}
             className="flex gap-2 flex-col items-center justify-items-center"
           >
-            <FaRupeeSign className="h-5 w-5 text-blue-600" />
+            <FaRupeeSign className="h-5 w-5 text-gray-600" />
             <h1 className="text-sm font-medium">Game Rate</h1>
           </div>
         ) : (
           <div></div>
         )}
 
-        <div className="flex gap-2 rounded-full bg-blue-500 flex-col items-center justify-items-center">
+        <div className="flex gap-2 rounded-full bg-rose-500 flex-col items-center justify-items-center">
           <IoMdHome className="h-6 w-6 m-3  text-white" />
         </div>
 
@@ -195,7 +200,7 @@ const BottomNavBar = () => {
             onClick={() => handleNavigation('funds')}
             className="flex gap-2 flex-col items-center justify-items-center"
           >
-            <RiBankFill className="h-5 text-blue-600 w-5" />
+            <RiBankFill className="h-5 text-gray-600 w-5" />
             <h1 className="text-sm font-medium">Funds</h1>
           </div>
         ) : (
@@ -207,7 +212,7 @@ const BottomNavBar = () => {
             onClick={handleWhatsAppClick}
             className="flex gap-2 flex-col items-center justify-items-center"
           >
-            <IoChatbubbleEllipsesOutline className="h-5 text-blue-600 w-5" />
+            <IoChatbubbleEllipsesOutline className="h-5 text-gray-600 w-5" />
             <h1 className="text-sm font-medium">Support</h1>
           </div>
         ) : (
@@ -226,7 +231,7 @@ const GameList: React.FC<{ marketData: MarketData[]; isLoading: boolean }> = ({
   return (
     <div
       className={`${
-        !user?.isVerified ? 'mt-[180px]' : 'mt-[235px]'
+        !user?.isVerified ? 'mt-[270px]' : 'mt-[330px]'
       } mb-16 overflow-y-auto h-screen bg-white`}
     >
       <LoadingModal isOpen={isLoading} />

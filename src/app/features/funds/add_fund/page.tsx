@@ -65,7 +65,7 @@ const AddFundPage = () => {
         amount: amount,
         p_info: 'Add Fund',
         customer_name: user?.name || 'CustName',
-        customer_email: user?.username + '@kalyan777.com' || 'CustEmail',
+        customer_email: user?.username + '@matka999.com' || 'CustEmail',
         customer_mobile: user?.username || 'CustMobile',
         redirect_url: `${window.location.origin}/features/funds/order_complete`,
         udf1: user?.id.toString(),
@@ -108,8 +108,8 @@ const AddFundPage = () => {
             <ContactOptions />
           </div>
           <hr className="h-1 mt-2 bg-black" />
-          <div className="flex mt-2 items-center border-2 border-gray-300 rounded-md p-2 focus-within:border-blue-500">
-            <BiRupee className="h-10 w-10 text-white p-1 mr-2 bg-blue-500 rounded-md" />
+          <div className="flex mt-2 items-center border-2 border-gray-300 rounded-full p-2 focus-within:border-rose-500">
+            <BiRupee className="h-10 w-10 text-white p-1 mr-2 bg-rose-500 rounded-full" />
             <input
               type="number"
               placeholder={`Enter Amount (Min: ${paymentDetails?.min_amount ?? '...'})`}
@@ -122,7 +122,7 @@ const AddFundPage = () => {
             <button
               onClick={handleCreateOrder}
               disabled={loading}
-              className="bg-blue-500 uppercase text-white font-medium py-2 px-4 rounded shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+              className="bg-rose-500 uppercase text-white font-medium py-2 px-4 rounded shadow-md hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:ring-opacity-50"
             >
               {loading ? 'Please Wait...' : 'Add Cash'}
             </button>
@@ -136,14 +136,14 @@ const AddFundPage = () => {
             <div className="flex flex-col space-y-2">
               <button
                 onClick={() => handleOpenModal(modalUrl)}
-                className="bg-blue-500 text-white py-2 px-4 rounded shadow-md hover:bg-blue-600"
+                className="bg-rose-500 text-white py-2 px-4 rounded shadow-md hover:bg-rose-600"
               >
                 SHOW QR CODE
               </button>
               {upiLinks.bhim_link && (
                 <button
                   onClick={() => handleUpiPayment(upiLinks.bhim_link || '')}
-                  className="bg-blue-500 text-white py-2 px-4 rounded shadow-md hover:bg-blue-600"
+                  className="bg-rose-500 text-white py-2 px-4 rounded shadow-md hover:bg-rose-600"
                 >
                   Pay with UPI
                 </button>
@@ -172,7 +172,7 @@ const AddFundPage = () => {
             />
             <button
               onClick={handleCloseModal}
-              className="mt-4 bg-blue-500 text-white text-center font-medium py-2 px-4 rounded shadow-md hover:bg-blue-600 focus:outline-none"
+              className="mt-4 bg-rose-500 text-white text-center font-medium py-2 px-4 rounded shadow-md hover:bg-rose-600 focus:outline-none"
             >
               Close
             </button>

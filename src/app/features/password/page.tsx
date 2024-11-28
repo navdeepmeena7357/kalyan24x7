@@ -118,7 +118,7 @@ const ChangePassword = () => {
                 className={`w-full px-4 py-2 border rounded-md focus:outline-none ${
                   errors.oldPassword
                     ? 'border-red-500'
-                    : 'border-gray-300 focus:border-blue-500'
+                    : 'border-gray-300 focus:border-rose-500'
                 }`}
                 placeholder="Enter old password"
               />
@@ -138,7 +138,7 @@ const ChangePassword = () => {
                 className={`w-full px-4 py-2 border rounded-md focus:outline-none ${
                   errors.newPassword
                     ? 'border-red-500'
-                    : 'border-gray-300 focus:border-blue-500'
+                    : 'border-gray-300 focus:border-rose-500'
                 }`}
                 placeholder="Enter new password"
               />
@@ -158,7 +158,7 @@ const ChangePassword = () => {
                 className={`w-full px-4 py-2 border rounded-md focus:outline-none ${
                   errors.confirmPassword
                     ? 'border-red-500'
-                    : 'border-gray-300 focus:border-blue-500'
+                    : 'border-gray-300 focus:border-rose-500'
                 }`}
                 placeholder="Confirm new password"
               />
@@ -169,7 +169,7 @@ const ChangePassword = () => {
 
             <button
               type="submit"
-              className="w-full py-2 mt-4 text-white bg-blue-500 hover:bg-blue-600 rounded-md transition duration-300"
+              className="w-full py-2 mt-4 text-white bg-rose-500 hover:bg-rose-600 rounded-md transition duration-300"
             >
               Update Password
             </button>

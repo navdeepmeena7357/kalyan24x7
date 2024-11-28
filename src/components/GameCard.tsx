@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 import { CgClose } from 'react-icons/cg';
 import AlertModal from './AlertModal';
 import { useUser } from '@/context/UserContext';
+import Image from 'next/image';
+import { showErrorToast } from '@/utils/toast';
 
 interface MarketProps {
   market: {
@@ -29,6 +31,10 @@ const GameCard: React.FC<MarketProps> = ({ market }) => {
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+
+  const handleChartClick = () => {
+    router.push(`/features/chart`);
+  };
 
   const handleMarketClick = () => {
     const queryParams = new URLSearchParams({
@@ -58,18 +64,18 @@ const GameCard: React.FC<MarketProps> = ({ market }) => {
   if (!isMarketOpen && !isMarketClose) {
     statusClass = 'text-red-600';
     buttonClass = 'bg-red-500';
-    marketStatusMessage = 'Market Closed';
+    marketStatusMessage = 'Closed';
   } else if (isMarketOpen && isMarketClose) {
-    marketStatusMessage = 'Market is Running';
+    marketStatusMessage = 'Running';
     buttonClass = 'bg-green-500';
     statusClass = 'text-green-600';
   } else if (!isMarketOpen && isMarketClose) {
-    marketStatusMessage = 'Running for Close';
+    marketStatusMessage = 'Running';
     buttonClass = 'bg-green-500';
     statusClass = 'text-green-600';
   } else {
     statusClass = 'text-red-600';
-    marketStatusMessage = 'Market is Closed';
+    marketStatusMessage = 'Closed';
   }
 
   const handleOpenModal = (message: string) => {
@@ -82,7 +88,7 @@ const GameCard: React.FC<MarketProps> = ({ market }) => {
   };
 
   const showMarketClosed = () => {
-    handleOpenModal('Market is closed for today. Try Tomorrow');
+    showErrorToast('MARKET IS CLOSED!');
   };
 
   return (
@@ -91,18 +97,29 @@ const GameCard: React.FC<MarketProps> = ({ market }) => {
         <AlertModal message={alertMessage} onClose={handleCloseModal} />
       )}
       <Toaster position="bottom-center" reverseOrder={false} />
+
       <div
         key={market.id}
-        className="bg-white shadow-md shadow-gray-500 rounded-md flex p-3 m-1 justify-between"
+        className="bg-white shadow-md border-red-500 border items-center justify-between rounded-md flex p-3 m-1"
         onClick={
           (isMarketOpen && isMarketClose) || isMarketClose
-            ? () => handleMarketClick()
+            ? () => handleMarketClick
             : () => (user?.isVerified ? showMarketClosed() : undefined)
         }
       >
-        <div>
-          <h2 className="text-[17px] font-semibold">{market.market_name}</h2>
-          <div className="flex font-bold items-center">
+        <div onClick={() => handleChartClick()}>
+          <Image
+            src={'/images/svg/chart.svg'}
+            alt={'Chart Icon'}
+            height={34}
+            width={34}
+          />
+          <h1 className="text-sm font-normal">Chart</h1>
+        </div>
+
+        <div className="items-center flex flex-col text-center">
+          <h2 className="text-[17px] font-bold">{market.market_name}</h2>
+          <div className="flex font-bold text-center items-center">
             <p className="text-orange-500">{market.open_pana}</p>
             <p className="text-orange-500 text-[18px]">
               - {getLastDigitOfSum(market.open_pana)}
@@ -115,14 +132,14 @@ const GameCard: React.FC<MarketProps> = ({ market }) => {
 
           <div className="flex gap-2 text-xs">
             <div className="flex flex-col">
-              <h1 className="text-gray-600">Open Bids</h1>
+              <h1 className="text-gray-600">Open Time</h1>
               <p className="text-gray-700">
                 {convertTo12HourFormat(market.market_open_time)}
               </p>
             </div>
 
             <div className="flex flex-col">
-              <h1 className="text-gray-600">Close Bids</h1>
+              <h1 className="text-gray-600">Close Time</h1>
               <p className="text-gray-700">
                 {convertTo12HourFormat(market.market_close_time)}
               </p>
@@ -130,27 +147,29 @@ const GameCard: React.FC<MarketProps> = ({ market }) => {
           </div>
         </div>
 
-        {user?.isVerified ? (
-          <div className="flex flex-col items-center">
-            <h1 className={`text-[13px] font-medium ${statusClass}`}>
-              {marketStatusMessage}
-            </h1>
+        <div className="items-center">
+          {user?.isVerified ? (
+            <div className="flex flex-col items-center">
+              <h1 className={`text-[13px] font-medium ${statusClass}`}>
+                {marketStatusMessage}
+              </h1>
 
-            <div
-              className={`flex items-center mt-2 justify-center h-12 w-12 ${buttonClass} rounded-full shadow-md`}
-            >
-              <p>
-                {market.is_active ? (
-                  <FaPlay className="text-white text-xl" />
-                ) : (
-                  <CgClose className="text-white text-xl" />
-                )}
-              </p>
+              <div
+                className={`flex items-center mt-2 justify-center h-12 w-12 ${buttonClass} rounded-full shadow-md`}
+              >
+                <p>
+                  {market.is_active ? (
+                    <FaPlay className="text-white text-xl" />
+                  ) : (
+                    <CgClose className="text-white text-xl" />
+                  )}
+                </p>
+              </div>
             </div>
-          </div>
-        ) : (
-          <div></div>
-        )}
+          ) : (
+            <div></div>
+          )}
+        </div>
       </div>
     </>
   );

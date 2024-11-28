@@ -133,13 +133,19 @@ function RegisterPage() {
   };
 
   return (
-    <div className="font-custom px-5 py-2">
+    <div
+      className="font-custom px-5 py-2"
+      style={{
+        background: 'linear-gradient(to right, #e74c3c 0%, #ecf0f1 100%)',
+        minHeight: '100vh',
+      }}
+    >
       <Toaster position="bottom-center" reverseOrder={false} />
       <LoadingModal isOpen={loading} />
 
       <div className="flex item-center">
-        <div className="bg-blue-600 w-2 h-14"></div>
-        <h1 className="uppercase text-lg font-bold ml-2 text-blue-600">
+        <div className="bg-white w-2 h-14"></div>
+        <h1 className="uppercase text-lg font-bold ml-2 text-white">
           Create a new <br />
           account
         </h1>
@@ -158,13 +164,13 @@ function RegisterPage() {
         <div className="grid gap-6 md:grid-cols-2 mt-6"></div>
 
         <div className="mb-4 relative">
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-blue-500 rounded-md p-2">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-red-500 rounded-md p-2">
             <MdAccountCircle className="text-white" />
           </div>
           <input
             type="text"
             id="name"
-            className="border-2 border-gray-300 text-black  rounded-md focus:outline-none focus:ring-0 focus:border-blue-500 block w-full pl-12 p-3.5"
+            className="border-2 border-gray-300 text-black  rounded-full focus:outline-none focus:ring-0 focus:border-blue-500 block w-full pl-12 p-3.5"
             placeholder="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -173,14 +179,14 @@ function RegisterPage() {
         </div>
 
         <div className="mb-4 mt-2 relative">
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-blue-500 rounded-md p-2">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-red-500 rounded-full p-2">
             <FaPhone className="text-white" />
           </div>
           <input
             type="tel"
             value={mobileNumber}
             maxLength={10}
-            className="border-2 border-gray-300 text-black  rounded-md focus:outline-none focus:ring-0 focus:border-blue-500 block w-full pl-12 p-3.5"
+            className="border-2 border-gray-300 text-black  rounded-full focus:outline-none focus:ring-0 focus:border-blue-500 block w-full pl-12 p-3.5"
             placeholder="Enter Mobile Number"
             onChange={(e) => setMobileNumber(e.target.value)}
             required
@@ -188,13 +194,13 @@ function RegisterPage() {
         </div>
 
         <div className="mb-4 relative">
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-blue-500 rounded-md p-2">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-red-500 rounded-full p-2">
             <FaLock className="text-white" />
           </div>
           <input
             type="password"
             value={password}
-            className="border-2 border-gray-300 text-black  rounded-md focus:outline-none focus:ring-0 focus:border-blue-500 block w-full pl-12 p-3.5"
+            className="border-2 border-gray-300 text-black  rounded-full focus:outline-none focus:ring-0 focus:border-blue-500 block w-full pl-12 p-3.5"
             placeholder="•••••••••"
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -206,7 +212,7 @@ function RegisterPage() {
         <div className="mr-12 ml-12">
           <button
             type="submit"
-            className={`text-white font-semibold bg-blue-600 hover:bg-blue-500 items-center focus:ring-0 focus:outline-none rounded-md text-sm w-full px-5 py-3 uppercase text-center ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`text-black font-semibold bg-white hover:bg-blue-500 items-center focus:ring-0 focus:outline-none rounded-md text-sm w-full px-5 py-3 uppercase text-center ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
             disabled={loading}
           >
             {loading ? 'Submitting...' : 'Submit'}

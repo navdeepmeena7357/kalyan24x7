@@ -39,8 +39,7 @@ interface User {
   is_withdraw_allowed: number;
   status: number;
 }
-const BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'https://kalyanoffice.in/api/';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://matka999.com/api/';
 
 export const login = async (
   username: string,

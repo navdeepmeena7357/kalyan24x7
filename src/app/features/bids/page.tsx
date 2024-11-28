@@ -180,7 +180,7 @@ const BidsPage = () => {
                   </div>
 
                   <div
-                    className="inline-block bg-blue
+                    className="inline-block bg-rose
 -50 p-2 shadow-sm shadow-gray-200 rounded-md"
                   >
                     <div className="font-medium text-sm">
@@ -229,7 +229,7 @@ const BidsPage = () => {
               <h1>Market</h1>
               <Select
                 onChange={handleMarketIdChange}
-                className="focus:ring-transparent mt-1 focus:outline-none focus:border-blue
+                className="focus:ring-transparent mt-1 focus:outline-none focus:border-rose
 -500"
                 options={marketNameOptions}
               />
@@ -239,7 +239,7 @@ const BidsPage = () => {
               <h1>Bid Type</h1>
               <Select
                 onChange={handleBidTypeChange}
-                className="focus:ring-transparent mt-1 focus:outline-none focus:border-blue
+                className="focus:ring-transparent mt-1 focus:outline-none focus:border-rose
 -500"
                 options={bidTypeOptions}
               />
@@ -253,7 +253,7 @@ const BidsPage = () => {
                 type="date"
                 value={formatToYYYYMMDD(date)}
                 onChange={handleDateChange}
-                className="focus:ring-transparent mt-1 max-w-[154px] p-2 bg-white rounded-sm shadow shadow-gray-400 focus:outline-none focus:border-blue
+                className="focus:ring-transparent mt-1 max-w-[154px] p-2 bg-white rounded-sm shadow shadow-gray-400 focus:outline-none focus:border-rose
 -500"
               />
             </div>
@@ -261,7 +261,7 @@ const BidsPage = () => {
               <h1>Session</h1>
               <Select
                 onChange={handleSessionChange}
-                className="focus:ring-transparent mt-1 focus:outline-none focus:border-blue
+                className="focus:ring-transparent mt-1 focus:outline-none focus:border-rose
 -500"
                 options={sessionOptions}
               />
@@ -270,8 +270,7 @@ const BidsPage = () => {
 
           <button
             onClick={handleSearchBids}
-            className="w-44 justify-center shadow-sm shadow-gray-300 text-center items-center p-2  ml-4 mr-4 bg-blue
--500 rounded-md text-white font-medium"
+            className="w-44 justify-center shadow-sm shadow-gray-300 text-center items-center p-2  ml-4 mr-4 bg-rose-500 rounded-md text-white font-medium"
           >
             Search Bids
           </button>

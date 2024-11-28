@@ -101,63 +101,65 @@ function LoginPage() {
   };
 
   return (
-    <div className="font-custom px-5 py-4">
+    <div
+      className="font-custom px-5 py-4"
+      style={{
+        background: 'linear-gradient(to right, #e74c3c 0%, #ecf0f1 100%)',
+        minHeight: '100vh',
+      }}
+    >
       <LoadingModal isOpen={isLoading} />
       <Toaster position="bottom-center" reverseOrder={false} />
-
-      <div className="flex item-center">
-        <div className="bg-blue-600 w-1 h-14"></div>
-        <h1 className="uppercase text-xl font-bold ml-2 text-blue-600">
-          login to existing <br />
-          account
-        </h1>
-      </div>
 
       <div className="flex items-center justify-center">
         <Image
           className="justify-center"
-          src="/images/svg/login.svg"
-          width={240}
-          height={240}
+          src="/images/logo.png"
+          width={230}
+          height={230}
           alt="Login Image"
         />
       </div>
 
+      <div className="text-white mt-2 font-medium">Welcome to Matka 999</div>
+
       <div className="mb-4 mt-2 relative">
-        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-blue-500 rounded-md p-2">
+        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-red-500 rounded-full p-2">
           <FaPhone className="text-white" />
         </div>
         <input
           type="number"
           value={mobileNumber}
           maxLength={10}
-          className="border-2 border-gray-300 text-black  rounded-md focus:outline-none focus:ring-0 focus:border-blue-500 block w-full pl-12 p-3.5"
+          className="border-2 border-gray-300 text-black  rounded-full focus:outline-none focus:ring-0 focus:border-white-500 block w-full pl-12 p-3.5"
           placeholder="Enter Mobile Number"
           onChange={(e) => setMobileNumber(e.target.value)}
           required
         />
       </div>
       <div className="mb-4 relative">
-        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-blue-500 rounded-md p-2">
+        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-red-500 rounded-full p-2">
           <FaLock className="text-white" />
         </div>
         <input
           type="password"
           value={password}
-          className="border-2 border-gray-300 text-black  rounded-md focus:outline-none focus:ring-0 focus:border-blue-500 block w-full pl-12 p-3.5"
+          className="border-2 border-gray-300 text-black  rounded-full focus:outline-none focus:ring-0 focus:border-white-500 block w-full pl-12 p-3.5"
           placeholder="•••••••••"
           onChange={(e) => setPassword(e.target.value)}
           required
         />
       </div>
 
-      <button
-        onClick={handleLogin}
-        disabled={isLoading}
-        className="text-white bg-blue-600 hover:bg-blue-500 font-semibold items-center focus:ring-0 focus:outline-none rounded-lg text-sm w-full px-5 py-3 uppercase text-center"
-      >
-        Submit
-      </button>
+      <div className="flex justify-center">
+        <button
+          onClick={handleLogin}
+          disabled={isLoading}
+          className="max-w-56 justify-self-center text-white bg-rose-500 hover:bg-rose-500 font-semibold items-center focus:ring-0 focus:outline-none rounded-lg text-sm w-full px-5 py-3 uppercase text-center"
+        >
+          Login
+        </button>
+      </div>
 
       <h1 className="text-center mt-4 text-sm font-semibold">
         For any help or Forgot Password !

@@ -47,7 +47,7 @@ const GameRate = () => {
 
       <TitleBar title="Game Rate" />
       <SafeArea>
-        <h1 className="text-white bg-blue-600 rounded-md p-2 ml-3 mr-3 text-center font-semibold">
+        <h1 className="text-white bg-rose-600 rounded-md p-2 ml-3 mr-3 text-center font-semibold">
           Game Win Ratio for All Bids
         </h1>
         {gameRates && (

@@ -20,7 +20,7 @@ const TitleBar: React.FC<TitleBarProps> = ({ title, onBack }) => {
     <nav className="bg-white w-full z-10 p-1.5 fixed left-0 top-0 font-semibold justify-between shadow-sm flex items-center pl-2">
       <div className="flex items-center">
         <FaArrowCircleLeft
-          className="w-8 h-8 text-blue-500"
+          className="w-8 h-8 text-rose-500"
           onClick={onBack || defaultBack}
         />
         <h1 className="text-lg uppercase p-2">{title}</h1>
