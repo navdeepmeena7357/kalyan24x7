@@ -8,7 +8,6 @@ import GameCard from '@/components/GameCard';
 import Drawer from '@/components/Drawer';
 import WalletOptions from '@/components/WalletOptions';
 import ContactOptions from '@/components/ContactOptions';
-import Marquee from '@/components/Marquee';
 import { useWallet } from '@/context/WalletContext';
 import { useAppData } from '@/context/AppDataContext';
 import { FaReceipt } from 'react-icons/fa';
@@ -54,7 +53,6 @@ const Navbar: React.FC<{ refreshMarketData: () => void }> = ({
   refreshMarketData,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const appData = useAppData();
   const { user, fetchAndSetUser } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const wallet = useWallet();
