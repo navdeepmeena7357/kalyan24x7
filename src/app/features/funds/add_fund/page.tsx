@@ -60,10 +60,10 @@ const AddFundPage = () => {
 
     try {
       const response = await createOrder({
-        key: 'dba30cca-0adb-42f4-b968-e22f07029964',
+        key: 'ae969c2b-da74-4bce-910b-a37a0c9d1e31',
         client_txn_id: generateTxnId(),
         amount: amount,
-        p_info: 'Add Fund',
+        p_info: 'Add Fund Matka 999',
         customer_name: user?.name || 'CustName',
         customer_email: user?.username + '@matka999.com' || 'CustEmail',
         customer_mobile: user?.username || 'CustMobile',
