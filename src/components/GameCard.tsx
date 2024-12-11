@@ -104,7 +104,7 @@ const GameCard: React.FC<MarketProps> = ({ market }) => {
         onClick={
           (isMarketOpen && isMarketClose) || isMarketClose
             ? () => handleMarketClick
-            : () => (user?.isVerified ? showMarketClosed() : undefined)
+            : () => showMarketClosed()
         }
       >
         <div onClick={() => handleChartClick()}>
@@ -147,7 +147,7 @@ const GameCard: React.FC<MarketProps> = ({ market }) => {
           </div>
         </div>
 
-        <div className="items-center">
+        <div className="items-center" onClick={handleMarketClick}>
           {user?.isVerified ? (
             <div className="flex flex-col items-center">
               <h1 className={`text-[13px] font-medium ${statusClass}`}>
